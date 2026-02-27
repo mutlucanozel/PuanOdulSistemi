@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "Giriş";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <!-- Branded header -->
+        <div class="auth-brand">
+            <span class="auth-brand-icon">🏆</span>
+            <h1>Puan & Ödül Sistemi</h1>
+            <p>Başarılarınızı takip edin, ödüller kazanın</p>
+        </div>
+
+        <!-- Tab navigation -->
+        <div class="auth-tabs">
+            <a href="/Hesap/Giris" class="auth-tab-link active">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Giriş Yap
+            </a>
+            <a href="/Hesap/KayitOl" class="auth-tab-link">
+                <i class="bi bi-person-plus me-1"></i>Kayıt Ol
+            </a>
+        </div>
+
+        <!-- Form body -->
+        <div class="auth-body">
+
+            @if (TempData["Basari"] != null)
+            {
+                <div class="auth-alert auth-alert-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>@TempData["Basari"]</span>
+                </div>
+            }
+
+            @if (ViewBag.Hata != null)
+            {
+                <div class="auth-alert auth-alert-danger">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>@ViewBag.Hata</span>
+                </div>
+            }
+
+            <form method="post" asp-controller="Hesap" asp-action="Giris">
+                <div class="field-group">
+                    <label>Kullanıcı Adı</label>
+                    <div class="field-input">
+                        <i class="bi bi-person"></i>
+                        <input type="text" name="kullaniciAdi" placeholder="Kullanıcı adınızı girin" required autocomplete="username" />
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Şifre</label>
+                    <div class="field-input">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" name="sifre" placeholder="Şifrenizi girin" required autocomplete="current-password" />
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Hesabınız yok mu? <a href="/Hesap/KayitOl">Kayıt Olun</a>
+            </div>
+        </div>
+    </div>
+</div>

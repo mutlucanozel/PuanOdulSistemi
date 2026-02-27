@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Öğrenci Ekle";
+    ViewData["Active"] = "OgrenciEkle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-4"><i class="bi bi-person-plus text-primary me-2"></i>Yeni Öğrenci Ekle</h5>
+
+            @if (ViewBag.Hata != null)
+            {
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-circle me-2"></i>@ViewBag.Hata
+                </div>
+            }
+
+            <form method="post" asp-controller="Admin" asp-action="OgrenciEkle">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Ad Soyad *</label>
+                    <input type="text" name="ad" class="form-control" required placeholder="ör: Ayşe Kaya" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Kullanıcı Adı *</label>
+                    <div class="input-group">
+                        <span class="input-group-text">@@</span>
+                        <input type="text" name="kullaniciAdi" class="form-control" required placeholder="ör: ayse" />
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Şifre *</label>
+                    <input type="password" name="sifre" class="form-control" required placeholder="Şifre belirleyin" minlength="4" />
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                    <i class="bi bi-person-plus me-2"></i>Öğrenci Ekle
+                </button>
+            </form>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="/Admin/Ogrenciler" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i>Öğrenci Listesine Dön
+            </a>
+        </div>
+    </div>
+</div>

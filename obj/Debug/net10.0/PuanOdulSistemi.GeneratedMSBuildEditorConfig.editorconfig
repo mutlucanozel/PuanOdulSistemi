@@ -1,0 +1,107 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = PuanOdulSistemi
+build_property.RootNamespace = PuanOdulSistemi
+build_property.ProjectDir = C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Admin/OdulleriYonet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT2R1bGxlcmlZb25ldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Admin/OgrenciEkle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT2dyZW5jaUVrbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Admin/Ogrenciler.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT2dyZW5jaWxlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Admin/OnayBekleyenler.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT25heUJla2xleWVubGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Hesap/Giris.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVzYXBcR2lyaXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Hesap/KayitOl.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVzYXBcS2F5aXRPbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Ogrenci/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Ogrenci/Oduller.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxPZHVsbGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Ogrenci/OkulTahmini.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxPa3VsVGFobWluaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Ogrenci/PuanGir.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxQdWFuR2lyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Ogrenci/Puanlarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxQdWFubGFyaW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Shared/_OgrenciLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9PZ3JlbmNpTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/MUTLU CAN/Desktop/PuanOdulSistemi/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-oq7fbkq111

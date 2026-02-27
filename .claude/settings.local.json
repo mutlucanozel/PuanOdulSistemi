@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd:*)",
+      "Bash(powershell:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet run:*)"
+    ]
+  }
+}

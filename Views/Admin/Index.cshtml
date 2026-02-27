@@ -1,0 +1,73 @@
+@{
+    ViewData["Title"] = "Genel Bakış";
+    ViewData["Active"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card p-3" style="border-left: 5px solid #f59e0b;">
+            <div style="font-size: 1.8rem;">⏳</div>
+            <div class="fs-3 fw-bold text-warning">@ViewBag.BekleyenSayi</div>
+            <div class="text-muted small">Bekleyen Onay</div>
+            <a href="/Admin/OnayBekleyenler" class="stretched-link"></a>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3" style="border-left: 5px solid #4f46e5;">
+            <div style="font-size: 1.8rem;">👥</div>
+            <div class="fs-3 fw-bold text-primary">@ViewBag.OgrenciSayisi</div>
+            <div class="text-muted small">Öğrenci Sayısı</div>
+            <a href="/Admin/Ogrenciler" class="stretched-link"></a>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3" style="border-left: 5px solid #10b981;">
+            <div style="font-size: 1.8rem;">📋</div>
+            <div class="fs-3 fw-bold text-success">@ViewBag.ToplamBasvuru</div>
+            <div class="text-muted small">Toplam Başvuru</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3" style="border-left: 5px solid #8b5cf6;">
+            <div style="font-size: 1.8rem;">🎁</div>
+            <div class="fs-3 fw-bold" style="color: #8b5cf6;">@ViewBag.OdulSayisi</div>
+            <div class="text-muted small">Ödül Sayısı</div>
+            <a href="/Admin/OdulleriYonet" class="stretched-link"></a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h6 class="fw-bold mb-3">Hızlı İşlemler</h6>
+            <div class="d-grid gap-2">
+                <a href="/Admin/OnayBekleyenler" class="btn btn-warning">
+                    <i class="bi bi-hourglass-split me-2"></i>Bekleyen Onayları İncele
+                    @if (ViewBag.BekleyenSayi > 0)
+                    {
+                        <span class="badge bg-dark ms-2">@ViewBag.BekleyenSayi</span>
+                    }
+                </a>
+                <a href="/Admin/OgrenciEkle" class="btn btn-primary">
+                    <i class="bi bi-person-plus me-2"></i>Yeni Öğrenci Ekle
+                </a>
+                <a href="/Admin/OdulleriYonet" class="btn btn-outline-purple" style="color: #7c3aed; border-color: #7c3aed;">
+                    <i class="bi bi-gift me-2"></i>Ödülleri Yönet
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h6 class="fw-bold mb-3">Sistem Bilgisi</h6>
+            <ul class="list-unstyled text-muted">
+                <li class="mb-2"><i class="bi bi-circle-fill text-success me-2" style="font-size: 0.6rem;"></i>Sistem aktif</li>
+                <li class="mb-2"><i class="bi bi-database me-2"></i>SQLite veritabanı</li>
+                <li class="mb-2"><i class="bi bi-shield-check me-2"></i>BCrypt şifre koruması</li>
+                <li><i class="bi bi-mortarboard me-2"></i>7 Eskişehir lisesi tanımlı</li>
+            </ul>
+        </div>
+    </div>
+</div>

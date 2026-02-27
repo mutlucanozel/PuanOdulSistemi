@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Puan Gir";
+    ViewData["Active"] = "PuanGir";
+    Layout = "~/Views/Shared/_OgrenciLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-4"><i class="bi bi-plus-circle text-primary me-2"></i>Yeni Puan Başvurusu</h5>
+
+            @if (TempData["Basari"] != null)
+            {
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle me-2"></i>@TempData["Basari"]
+                </div>
+            }
+
+            <form method="post" asp-controller="Ogrenci" asp-action="PuanGir" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Aktivite Adı <span class="text-danger">*</span></label>
+                    <input type="text" name="aktiviteAdi" class="form-control" placeholder="ör: Matematik Olimpiyatı 1. lik" required />
+                    <div class="form-text">Katıldığınız etkinlik, yarışma veya başarınızı yazın.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Açıklama</label>
+                    <textarea name="aciklama" class="form-control" rows="3" placeholder="Aktivite hakkında kısa açıklama..."></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">İstenen Puan <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="number" name="puan" class="form-control" placeholder="ör: 50" min="1" max="10000" required />
+                        <span class="input-group-text">puan</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Kanıt Fotoğrafı</label>
+                    <input type="file" name="fotograf" class="form-control" accept="image/*" id="fotografInput" />
+                    <div class="form-text">Sertifika, kupa veya katılım belgesi fotoğrafı yükleyin. (Maks. 5MB)</div>
+                    <div id="onizleme" class="mt-2 d-none">
+                        <img id="onizlemeImg" src="" alt="Önizleme" class="img-thumbnail" style="max-height: 200px;" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                    <i class="bi bi-send me-2"></i>Başvuruyu Gönder
+                </button>
+            </form>
+        </div>
+
+        <div class="card p-3 mt-3 border-warning" style="border-left: 4px solid #f59e0b !important;">
+            <p class="mb-0 small text-muted">
+                <i class="bi bi-info-circle-fill text-warning me-2"></i>
+                Gönderdiğiniz başvurular admin onayından sonra puanınıza eklenir.
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('fotografInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                document.getElementById('onizlemeImg').src = ev.target.result;
+                document.getElementById('onizleme').classList.remove('d-none');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+}

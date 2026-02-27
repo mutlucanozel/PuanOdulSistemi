@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Puan & Ödül Sistemi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #eef2ff;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 248px;
+            flex-shrink: 0;
+            min-height: 100vh;
+            background: #fff;
+            border-right: 1px solid #e0e7ff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 70%, #7c3aed 100%);
+            padding: 22px 20px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -30px; right: -20px;
+            width: 100px; height: 100px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+        }
+
+        .sidebar-brand-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-brand-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-brand-sub {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-nav { padding: 16px 12px; flex: 1; }
+
+        .sidebar-section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            color: #818cf8;
+            padding: 6px 10px 4px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.18s;
+            margin-bottom: 2px;
+        }
+
+        .sidebar-link i {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-link:hover {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, #e0e7ff, #ede9fe);
+            color: #4f46e5;
+            font-weight: 600;
+            box-shadow: inset 3px 0 0 #4f46e5;
+        }
+
+        .sidebar-divider {
+            border: none;
+            border-top: 1px solid #f3f4f6;
+            margin: 10px 0;
+        }
+
+        .sidebar-link.danger { color: #dc2626; }
+        .sidebar-link.danger:hover { background: #fef2f2; color: #b91c1c; }
+
+        /* ── Main content ── */
+        .main-content { flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+        /* ── Topbar ── */
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e0e7ff;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e1b4b;
+            margin: 0;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar-avatar {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .topbar-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* ── Content area ── */
+        .content-area { padding: 28px; flex: 1; }
+
+        /* ── Cards ── */
+        .card {
+            border-radius: 14px;
+            box-shadow: 0 1px 8px rgba(79, 70, 229, 0.07);
+            border: 1px solid #e0e7ff;
+        }
+
+        .stat-card {
+            border-radius: 14px;
+            border: 1px solid #e0e7ff;
+            box-shadow: 0 1px 8px rgba(79, 70, 229, 0.07);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.12);
+        }
+
+        /* ── Tables ── */
+        .table { font-size: 0.875rem; }
+        .table thead th {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            color: #6b7280;
+            background: #f9f9ff;
+            border-bottom: 1px solid #e0e7ff;
+        }
+
+        /* ── Reward cards ── */
+        .odul-card .placeholder-img { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #4f46e5 0%, #a855f7 100%); font-size: 4rem; }
+        .odul-card img { width: 100%; height: 180px; object-fit: cover; }
+        .okul-satir.girebilir { background-color: #d1e7dd !important; border-left: 4px solid #198754; }
+        .progress { height: 8px; border-radius: 4px; }
+
+        /* ── Buttons ── */
+        .btn-primary { background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none; font-weight: 500; }
+        .btn-primary:hover { background: linear-gradient(135deg, #4338ca, #6d28d9); border: none; }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <span class="sidebar-brand-icon">🏆</span>
+                <p class="sidebar-brand-title">Puan & Ödül</p>
+                <p class="sidebar-brand-sub">Öğrenci Paneli</p>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="sidebar-section-label">Menü</div>
+
+                <a href="/Ogrenci/Index" class="sidebar-link @(ViewData["Active"]?.ToString() == "Index" ? "active" : "")">
+                    <i class="bi bi-house"></i> Ana Sayfa
+                </a>
+                <a href="/Ogrenci/PuanGir" class="sidebar-link @(ViewData["Active"]?.ToString() == "PuanGir" ? "active" : "")">
+                    <i class="bi bi-plus-circle"></i> Puan Gir
+                </a>
+                <a href="/Ogrenci/Puanlarim" class="sidebar-link @(ViewData["Active"]?.ToString() == "Puanlarim" ? "active" : "")">
+                    <i class="bi bi-list-check"></i> Puanlarım
+                </a>
+                <a href="/Ogrenci/Oduller" class="sidebar-link @(ViewData["Active"]?.ToString() == "Oduller" ? "active" : "")">
+                    <i class="bi bi-gift"></i> Ödüller
+                </a>
+                <a href="/Ogrenci/OkulTahmini" class="sidebar-link @(ViewData["Active"]?.ToString() == "OkulTahmini" ? "active" : "")">
+                    <i class="bi bi-mortarboard"></i> Okul Tahmini
+                </a>
+
+                <hr class="sidebar-divider" />
+
+                <a href="/Hesap/Cikis" class="sidebar-link danger">
+                    <i class="bi bi-box-arrow-left"></i> Çıkış Yap
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="topbar">
+                <h5 class="topbar-title">@ViewData["Title"]</h5>
+                <div class="topbar-right">
+                    <div class="topbar-avatar">
+                        @(ViewBag.Ad?.ToString()?.Length > 0 ? ViewBag.Ad.ToString()[0].ToString().ToUpper() : "Ö")
+                    </div>
+                    <span class="topbar-name">@ViewBag.Ad</span>
+                </div>
+            </div>
+
+            <div class="content-area">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

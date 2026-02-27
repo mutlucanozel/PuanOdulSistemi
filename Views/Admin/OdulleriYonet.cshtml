@@ -1,0 +1,102 @@
+@model List<PuanOdulSistemi.Models.Odul>
+@{
+    ViewData["Title"] = "Ödülleri Yönet";
+    ViewData["Active"] = "OdulleriYonet";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row g-4">
+    <!-- Yeni Ödül Ekle Formu -->
+    <div class="col-lg-4">
+        <div class="card p-4 h-100">
+            <h6 class="fw-bold mb-4"><i class="bi bi-plus-circle me-2 text-primary"></i>Yeni Ödül Ekle</h6>
+            <form method="post" asp-controller="Admin" asp-action="OdulEkle" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Ödül Adı *</label>
+                    <input type="text" name="ad" class="form-control" required placeholder="ör: Kalem Seti" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Açıklama</label>
+                    <textarea name="aciklama" class="form-control" rows="2" placeholder="Ödül açıklaması..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Gerekli Puan *</label>
+                    <div class="input-group">
+                        <input type="number" name="gerekliPuan" class="form-control" required min="1" placeholder="ör: 100" />
+                        <span class="input-group-text">puan</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small">Ödül Görseli</label>
+                    <input type="file" name="gorsel" class="form-control" accept="image/*" id="gorselInput" />
+                    <div id="gorselOnizleme" class="mt-2 d-none">
+                        <img id="gorselOnizlemeImg" src="" class="img-thumbnail" style="max-height: 150px;" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                    <i class="bi bi-plus me-2"></i>Ödül Ekle
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mevcut Ödüller -->
+    <div class="col-lg-8">
+        <h6 class="fw-bold mb-3">Mevcut Ödüller (@Model.Count)</h6>
+        @if (!Model.Any())
+        {
+            <div class="card p-4 text-center text-muted">Henüz ödül yok.</div>
+        }
+        else
+        {
+            <div class="row g-3">
+                @foreach (var odul in Model)
+                {
+                    <div class="col-sm-6">
+                        <div class="card odul-card h-100">
+                            @if (!string.IsNullOrEmpty(odul.GorselYolu))
+                            {
+                                <img src="@odul.GorselYolu" alt="@odul.Ad" />
+                            }
+                            else
+                            {
+                                <div class="placeholder-img">🎁</div>
+                            }
+                            <div class="card-body">
+                                <h6 class="card-title fw-bold">@odul.Ad</h6>
+                                @if (!string.IsNullOrEmpty(odul.Aciklama))
+                                {
+                                    <p class="card-text text-muted small">@odul.Aciklama</p>
+                                }
+                                <p class="fw-bold text-primary mb-3">@odul.GerekliPuan puan</p>
+                                <form method="post" asp-controller="Admin" asp-action="OdulSil"
+                                      onsubmit="return confirm('@odul.Ad ödülünü silmek istediğinize emin misiniz?')">
+                                    <input type="hidden" name="id" value="@odul.Id" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                                        <i class="bi bi-trash me-1"></i>Sil
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('gorselInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                document.getElementById('gorselOnizlemeImg').src = ev.target.result;
+                document.getElementById('gorselOnizleme').classList.remove('d-none');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+}

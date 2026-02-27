@@ -1,0 +1,159 @@
+@model List<PuanOdulSistemi.Models.PuanBasvurusu>
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    ViewData["Active"] = "Index";
+    Layout = "~/Views/Shared/_OgrenciLayout.cshtml";
+
+    int toplamPuan = ViewBag.ToplamPuan ?? 0;
+    int bekleyenSayi = ViewBag.BekleyenSayi ?? 0;
+    int onaylananSayi = ViewBag.OnaylananSayi ?? 0;
+    var kazanilanOduller = ViewBag.KazanilanOduller as List<PuanOdulSistemi.Models.Odul> ?? new();
+    var okullar = ViewBag.Okullar as List<PuanOdulSistemi.Models.OkulBilgisi> ?? new();
+    double ortalama = onaylananSayi > 0 ? (double)toplamPuan / onaylananSayi : 0;
+    var enIyiOkul = okullar.Where(o => ortalama >= o.TabanPuan).FirstOrDefault();
+}
+
+@if (TempData["Basari"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i>@TempData["Basari"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- İstatistik Kartları -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card stat-card p-3" style="border-left-color: #4f46e5;">
+            <div style="font-size: 1.8rem;">⭐</div>
+            <div class="fs-3 fw-bold text-primary">@toplamPuan</div>
+            <div class="text-muted small">Toplam Puan</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card stat-card p-3" style="border-left-color: #f59e0b;">
+            <div style="font-size: 1.8rem;">⏳</div>
+            <div class="fs-3 fw-bold text-warning">@bekleyenSayi</div>
+            <div class="text-muted small">Bekleyen</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card stat-card p-3" style="border-left-color: #10b981;">
+            <div style="font-size: 1.8rem;">✅</div>
+            <div class="fs-3 fw-bold text-success">@onaylananSayi</div>
+            <div class="text-muted small">Onaylanan</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card stat-card p-3" style="border-left-color: #8b5cf6;">
+            <div style="font-size: 1.8rem;">🎁</div>
+            <div class="fs-3 fw-bold text-purple" style="color: #8b5cf6;">@kazanilanOduller.Count</div>
+            <div class="text-muted small">Kazanılan Ödül</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <!-- Okul Tahmini Özeti -->
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-mortarboard text-primary me-2"></i>Okul Tahmini</h6>
+            @if (ortalama > 0)
+            {
+                <p class="text-muted small mb-2">Ortalama puanınız: <strong class="text-primary fs-5">@ortalama.ToString("F2")</strong></p>
+                @if (enIyiOkul != null)
+                {
+                    <div class="alert alert-success py-2 mb-0">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <strong>@enIyiOkul.Ad</strong> okuluna girebilirsiniz!
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning py-2 mb-0">
+                        <i class="bi bi-info-circle me-1"></i>Henüz okul eşiğine ulaşılmadı.
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">Henüz onaylanmış puan yok.</p>
+            }
+            <a href="/Ogrenci/OkulTahmini" class="btn btn-outline-primary btn-sm mt-3">Tüm Okulları Gör</a>
+        </div>
+    </div>
+
+    <!-- Kazanılan Ödüller -->
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-trophy text-warning me-2"></i>Kazanılan Ödüller</h6>
+            @if (kazanilanOduller.Any())
+            {
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach (var odul in kazanilanOduller)
+                    {
+                        <span class="badge rounded-pill" style="background-color: #ede9fe; color: #7c3aed; padding: 8px 14px; font-size: 0.85rem;">
+                            🎁 @odul.Ad
+                        </span>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">Henüz ödül kazanılmadı. Puan girerek ödüller kazanın!</p>
+            }
+            <a href="/Ogrenci/Oduller" class="btn btn-outline-purple btn-sm mt-3" style="color: #7c3aed; border-color: #7c3aed;">Tüm Ödülleri Gör</a>
+        </div>
+    </div>
+</div>
+
+<!-- Son Başvurular -->
+<div class="card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-bold mb-0"><i class="bi bi-clock-history text-secondary me-2"></i>Son Başvurular</h6>
+        <a href="/Ogrenci/Puanlarim" class="btn btn-sm btn-outline-secondary">Tümünü Gör</a>
+    </div>
+    @if (!Model.Any())
+    {
+        <p class="text-muted text-center py-3">Henüz başvuru yapılmadı. <a href="/Ogrenci/PuanGir">Puan gir!</a></p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Aktivite</th>
+                        <th>Puan</th>
+                        <th>Durum</th>
+                        <th>Tarih</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var b in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@b.AktiviteAdi</td>
+                            <td><span class="text-primary fw-bold">@b.Puan</span></td>
+                            <td>
+                                @if (b.Durum == "Onaylandi")
+                                {
+                                    <span class="badge bg-success">✓ Onaylandı</span>
+                                }
+                                else if (b.Durum == "Bekliyor")
+                                {
+                                    <span class="badge bg-warning text-dark">⏳ Bekliyor</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">✗ Reddedildi</span>
+                                }
+                            </td>
+                            <td class="text-muted small">@b.GondermeTarihi.ToString("dd MMM yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

@@ -1,0 +1,87 @@
+@{
+    ViewData["Title"] = "Okul Tahmini";
+    ViewData["Active"] = "OkulTahmini";
+    Layout = "~/Views/Shared/_OgrenciLayout.cshtml";
+
+    double ortalama = ViewBag.Ortalama ?? 0;
+    var okullar = ViewBag.Okullar as List<PuanOdulSistemi.Models.OkulBilgisi> ?? new();
+}
+
+<div class="card p-4 mb-4" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border: none;">
+    <div class="row align-items-center">
+        <div class="col">
+            <h5 class="fw-bold mb-1">Okul Tahmini</h5>
+            <p class="mb-0 opacity-75 small">Onaylanan puanlarınızın ortalamasına göre hangi okula girebileceğinizi görün.</p>
+        </div>
+        <div class="col-auto text-end">
+            <div class="opacity-75 small">Ortalama Puanınız</div>
+            <div class="display-5 fw-bold">@(ortalama > 0 ? ortalama.ToString("F2") : "—")</div>
+        </div>
+    </div>
+</div>
+
+@if (ortalama == 0)
+{
+    <div class="alert alert-warning">
+        <i class="bi bi-info-circle me-2"></i>
+        Okul tahmini için önce puan başvurusu yapın ve admin onayını bekleyin.
+    </div>
+}
+
+<div class="card p-4">
+    <h6 class="fw-bold mb-3">Eskişehir Lise Taban Puanları</h6>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Okul Adı</th>
+                    <th class="text-end">Taban Puan</th>
+                    <th class="text-center">Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < okullar.Count; i++)
+                {
+                    var okul = okullar[i];
+                    bool girebilir = ortalama > 0 && ortalama >= okul.TabanPuan;
+                    <tr class="@(girebilir ? "table-success" : "")">
+                        <td class="text-muted">@(i + 1)</td>
+                        <td>
+                            <strong>@okul.Ad</strong>
+                        </td>
+                        <td class="text-end fw-semibold">@okul.TabanPuan.ToString("F2")</td>
+                        <td class="text-center">
+                            @if (girebilir)
+                            {
+                                <span class="badge bg-success px-3">
+                                    <i class="bi bi-check-lg me-1"></i>Girebilirsiniz
+                                </span>
+                            }
+                            else if (ortalama > 0)
+                            {
+                                double fark = okul.TabanPuan - ortalama;
+                                <span class="badge bg-secondary">@fark.ToString("F2") puan eksik</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">—</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (ortalama > 0)
+    {
+        var enIyiOkul = okullar.Where(o => ortalama >= o.TabanPuan).FirstOrDefault();
+        @if (enIyiOkul != null)
+        {
+            <div class="alert alert-success mt-3 mb-0">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                <strong>Tebrikler!</strong> @ortalama.ToString("F2") ortalama puanınızla <strong>@enIyiOkul.Ad</strong> okuluna girebilirsiniz.
+            </div>
+        }
+    }
+</div>

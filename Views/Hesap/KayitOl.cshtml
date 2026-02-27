@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <!-- Branded header -->
+        <div class="auth-brand">
+            <span class="auth-brand-icon">🏆</span>
+            <h1>Puan & Ödül Sistemi</h1>
+            <p>Yeni bir hesap oluşturun</p>
+        </div>
+
+        <!-- Tab navigation -->
+        <div class="auth-tabs">
+            <a href="/Hesap/Giris" class="auth-tab-link">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Giriş Yap
+            </a>
+            <a href="/Hesap/KayitOl" class="auth-tab-link active">
+                <i class="bi bi-person-plus me-1"></i>Kayıt Ol
+            </a>
+        </div>
+
+        <!-- Form body -->
+        <div class="auth-body">
+
+            @if (ViewBag.Hata != null)
+            {
+                <div class="auth-alert auth-alert-danger">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>@ViewBag.Hata</span>
+                </div>
+            }
+
+            <form method="post" asp-controller="Hesap" asp-action="KayitOl">
+                <div class="field-group">
+                    <label>Ad Soyad</label>
+                    <div class="field-input">
+                        <i class="bi bi-person-badge"></i>
+                        <input type="text" name="ad" placeholder="Adınızı ve soyadınızı girin" required minlength="2" autocomplete="name" />
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Kullanıcı Adı</label>
+                    <div class="field-input">
+                        <i class="bi bi-at"></i>
+                        <input type="text" name="kullaniciAdi" placeholder="Kullanıcı adı seçin" required minlength="3" autocomplete="username" />
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Şifre <span style="color:#9ca3af;font-weight:400;">(en az 6 karakter)</span></label>
+                    <div class="field-input">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" name="sifre" placeholder="Şifre belirleyin" required minlength="6" autocomplete="new-password" />
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Şifre Tekrar</label>
+                    <div class="field-input">
+                        <i class="bi bi-lock-fill"></i>
+                        <input type="password" name="sifreTekrar" placeholder="Şifrenizi tekrar girin" required minlength="6" autocomplete="new-password" />
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <i class="bi bi-person-check me-2"></i>Kayıt Ol
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Zaten hesabınız var mı? <a href="/Hesap/Giris">Giriş Yapın</a>
+            </div>
+        </div>
+    </div>
+</div>
