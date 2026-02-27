@@ -3,69 +3,112 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="auth-wrapper">
-    <div class="auth-card">
-
-        <!-- Branded header -->
-        <div class="auth-brand">
-            <span class="auth-brand-icon">🏆</span>
-            <h1>Puan & Ödül Sistemi</h1>
-            <p>Başarılarınızı takip edin, ödüller kazanın</p>
+<div class="auth-page">
+    <!-- Left branding panel -->
+    <div class="auth-panel-left">
+        <div class="auth-brand-logo">
+            <div class="auth-brand-icon-box">🏆</div>
+            <div class="auth-brand-title">Puan &<br>Ödül Sistemi</div>
+            <p class="auth-brand-desc">Başarılarınızı takip edin, puan kazanın ve harika ödüllere ulaşın.</p>
         </div>
 
-        <!-- Tab navigation -->
-        <div class="auth-tabs">
-            <a href="/Hesap/Giris" class="auth-tab-link active">
-                <i class="bi bi-box-arrow-in-right me-1"></i>Giriş Yap
-            </a>
-            <a href="/Hesap/KayitOl" class="auth-tab-link">
-                <i class="bi bi-person-plus me-1"></i>Kayıt Ol
-            </a>
+        <div class="auth-features">
+            <div class="auth-feature-item">
+                <div class="auth-feature-icon"><i class="bi bi-star-fill"></i></div>
+                <div class="auth-feature-text">
+                    <span class="feat-title">Puan Kazanın</span>
+                    <span class="feat-desc">Aktivitelerinizi girin, onay bekleyin ve puanlarınızı biriktirin.</span>
+                </div>
+            </div>
+            <div class="auth-feature-item">
+                <div class="auth-feature-icon"><i class="bi bi-gift-fill"></i></div>
+                <div class="auth-feature-text">
+                    <span class="feat-title">Ödül Alın</span>
+                    <span class="feat-desc">Yeterli puana ulaştığınızda ödüllerinizi kazanın.</span>
+                </div>
+            </div>
+            <div class="auth-feature-item">
+                <div class="auth-feature-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                <div class="auth-feature-text">
+                    <span class="feat-title">Okul Tahmini</span>
+                    <span class="feat-desc">Ortalama puanınıza göre girebileceğiniz okulları görün.</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Form body -->
-        <div class="auth-body">
+        <div class="auth-panel-bottom">
+            &copy; 2025 Puan & Ödül Sistemi
+        </div>
+    </div>
 
-            @if (TempData["Basari"] != null)
-            {
-                <div class="auth-alert auth-alert-success">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>@TempData["Basari"]</span>
+    <!-- Right form panel -->
+    <div class="auth-panel-right">
+        <div class="auth-form-wrap">
+
+            <!-- Mobile brand -->
+            <div class="auth-mobile-brand">
+                <span class="auth-mobile-brand-icon">🏆</span>
+                <div class="auth-mobile-brand-title">Puan & Ödül Sistemi</div>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <a href="/Hesap/Giris" class="auth-tab active">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Giriş Yap
+                    </a>
+                    <a href="/Hesap/KayitOl" class="auth-tab">
+                        <i class="bi bi-person-plus me-1"></i>Kayıt Ol
+                    </a>
                 </div>
-            }
 
-            @if (ViewBag.Hata != null)
-            {
-                <div class="auth-alert auth-alert-danger">
-                    <i class="bi bi-exclamation-circle-fill"></i>
-                    <span>@ViewBag.Hata</span>
-                </div>
-            }
+                <div class="auth-body">
+                    <h6 style="font-size:1.05rem; font-weight:700; color:#0f0e2a; margin-bottom:4px;">Tekrar hoş geldiniz!</h6>
+                    <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:22px;">Hesabınıza giriş yapın.</p>
 
-            <form method="post" asp-controller="Hesap" asp-action="Giris">
-                <div class="field-group">
-                    <label>Kullanıcı Adı</label>
-                    <div class="field-input">
-                        <i class="bi bi-person"></i>
-                        <input type="text" name="kullaniciAdi" placeholder="Kullanıcı adınızı girin" required autocomplete="username" />
+                    @if (TempData["Basari"] != null)
+                    {
+                        <div class="auth-alert auth-alert-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>@TempData["Basari"]</span>
+                        </div>
+                    }
+
+                    @if (ViewBag.Hata != null)
+                    {
+                        <div class="auth-alert auth-alert-danger">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            <span>@ViewBag.Hata</span>
+                        </div>
+                    }
+
+                    <form method="post" asp-controller="Hesap" asp-action="Giris">
+                        <div class="auth-field">
+                            <label>Kullanıcı Adı</label>
+                            <div class="auth-input-wrap">
+                                <i class="bi bi-person"></i>
+                                <input class="auth-input" type="text" name="kullaniciAdi"
+                                       placeholder="Kullanıcı adınızı girin" required autocomplete="username" />
+                            </div>
+                        </div>
+
+                        <div class="auth-field">
+                            <label>Şifre</label>
+                            <div class="auth-input-wrap">
+                                <i class="bi bi-lock"></i>
+                                <input class="auth-input" type="password" name="sifre"
+                                       placeholder="Şifrenizi girin" required autocomplete="current-password" />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="auth-btn">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+                        </button>
+                    </form>
+
+                    <div class="auth-footer">
+                        Hesabınız yok mu? <a href="/Hesap/KayitOl">Kayıt Olun</a>
                     </div>
                 </div>
-
-                <div class="field-group">
-                    <label>Şifre</label>
-                    <div class="field-input">
-                        <i class="bi bi-lock"></i>
-                        <input type="password" name="sifre" placeholder="Şifrenizi girin" required autocomplete="current-password" />
-                    </div>
-                </div>
-
-                <button type="submit" class="auth-btn">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
-                </button>
-            </form>
-
-            <div class="auth-footer">
-                Hesabınız yok mu? <a href="/Hesap/KayitOl">Kayıt Olun</a>
             </div>
         </div>
     </div>

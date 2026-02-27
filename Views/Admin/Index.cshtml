@@ -4,70 +4,125 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<!-- Stat Cards -->
 <div class="row g-3 mb-4">
-    <div class="col-6 col-md-3">
-        <div class="card p-3" style="border-left: 5px solid #f59e0b;">
-            <div style="font-size: 1.8rem;">⏳</div>
-            <div class="fs-3 fw-bold text-warning">@ViewBag.BekleyenSayi</div>
-            <div class="text-muted small">Bekleyen Onay</div>
-            <a href="/Admin/OnayBekleyenler" class="stretched-link"></a>
+    <div class="col-6 col-xl-3">
+        <a href="/Admin/OnayBekleyenler" class="stat-card p-4 text-decoration-none">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;color:#f59e0b;font-size:1.2rem;">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <span style="font-size:0.7rem;font-weight:600;color:#f59e0b;background:#fff7ed;padding:3px 9px;border-radius:20px;">Bekliyor</span>
+            </div>
+            <div style="font-size:2rem;font-weight:800;color:#f59e0b;letter-spacing:-1px;line-height:1;">@ViewBag.BekleyenSayi</div>
+            <div style="font-size:0.8rem;color:#9ca3af;margin-top:4px;">Bekleyen Onay</div>
+        </a>
+    </div>
+    <div class="col-6 col-xl-3">
+        <a href="/Admin/Ogrenciler" class="stat-card p-4 text-decoration-none">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div style="width:44px;height:44px;border-radius:12px;background:#eff6ff;display:flex;align-items:center;justify-content:center;color:#4f46e5;font-size:1.2rem;">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <span style="font-size:0.7rem;font-weight:600;color:#4f46e5;background:#eff6ff;padding:3px 9px;border-radius:20px;">Aktif</span>
+            </div>
+            <div style="font-size:2rem;font-weight:800;color:#4f46e5;letter-spacing:-1px;line-height:1;">@ViewBag.OgrenciSayisi</div>
+            <div style="font-size:0.8rem;color:#9ca3af;margin-top:4px;">Öğrenci Sayısı</div>
+        </a>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;color:#16a34a;font-size:1.2rem;">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+                <span style="font-size:0.7rem;font-weight:600;color:#16a34a;background:#f0fdf4;padding:3px 9px;border-radius:20px;">Toplam</span>
+            </div>
+            <div style="font-size:2rem;font-weight:800;color:#16a34a;letter-spacing:-1px;line-height:1;">@ViewBag.ToplamBasvuru</div>
+            <div style="font-size:0.8rem;color:#9ca3af;margin-top:4px;">Toplam Başvuru</div>
         </div>
     </div>
-    <div class="col-6 col-md-3">
-        <div class="card p-3" style="border-left: 5px solid #4f46e5;">
-            <div style="font-size: 1.8rem;">👥</div>
-            <div class="fs-3 fw-bold text-primary">@ViewBag.OgrenciSayisi</div>
-            <div class="text-muted small">Öğrenci Sayısı</div>
-            <a href="/Admin/Ogrenciler" class="stretched-link"></a>
-        </div>
-    </div>
-    <div class="col-6 col-md-3">
-        <div class="card p-3" style="border-left: 5px solid #10b981;">
-            <div style="font-size: 1.8rem;">📋</div>
-            <div class="fs-3 fw-bold text-success">@ViewBag.ToplamBasvuru</div>
-            <div class="text-muted small">Toplam Başvuru</div>
-        </div>
-    </div>
-    <div class="col-6 col-md-3">
-        <div class="card p-3" style="border-left: 5px solid #8b5cf6;">
-            <div style="font-size: 1.8rem;">🎁</div>
-            <div class="fs-3 fw-bold" style="color: #8b5cf6;">@ViewBag.OdulSayisi</div>
-            <div class="text-muted small">Ödül Sayısı</div>
-            <a href="/Admin/OdulleriYonet" class="stretched-link"></a>
-        </div>
+    <div class="col-6 col-xl-3">
+        <a href="/Admin/OdulleriYonet" class="stat-card p-4 text-decoration-none">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div style="width:44px;height:44px;border-radius:12px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:1.2rem;">
+                    <i class="bi bi-gift-fill"></i>
+                </div>
+                <span style="font-size:0.7rem;font-weight:600;color:#7c3aed;background:#f5f3ff;padding:3px 9px;border-radius:20px;">Tanımlı</span>
+            </div>
+            <div style="font-size:2rem;font-weight:800;color:#7c3aed;letter-spacing:-1px;line-height:1;">@ViewBag.OdulSayisi</div>
+            <div style="font-size:0.8rem;color:#9ca3af;margin-top:4px;">Ödül Sayısı</div>
+        </a>
     </div>
 </div>
 
 <div class="row g-3">
+    <!-- Hızlı İşlemler -->
     <div class="col-md-6">
         <div class="card p-4 h-100">
-            <h6 class="fw-bold mb-3">Hızlı İşlemler</h6>
+            <div class="d-flex align-items-center gap-2 mb-4">
+                <div style="width:34px;height:34px;border-radius:9px;background:#f5f4ff;display:flex;align-items:center;justify-content:center;color:#4f46e5;">
+                    <i class="bi bi-lightning-fill"></i>
+                </div>
+                <h6 class="fw-bold mb-0" style="color:#0f0e2a;">Hızlı İşlemler</h6>
+            </div>
             <div class="d-grid gap-2">
-                <a href="/Admin/OnayBekleyenler" class="btn btn-warning">
-                    <i class="bi bi-hourglass-split me-2"></i>Bekleyen Onayları İncele
+                <a href="/Admin/OnayBekleyenler" class="btn btn-warning d-flex align-items-center gap-2 py-2">
+                    <i class="bi bi-hourglass-split"></i>
+                    <span>Bekleyen Onayları İncele</span>
                     @if (ViewBag.BekleyenSayi > 0)
                     {
-                        <span class="badge bg-dark ms-2">@ViewBag.BekleyenSayi</span>
+                        <span class="badge bg-dark ms-auto">@ViewBag.BekleyenSayi</span>
                     }
                 </a>
-                <a href="/Admin/OgrenciEkle" class="btn btn-primary">
-                    <i class="bi bi-person-plus me-2"></i>Yeni Öğrenci Ekle
+                <a href="/Admin/OgrenciEkle" class="btn btn-primary d-flex align-items-center gap-2 py-2">
+                    <i class="bi bi-person-plus-fill"></i>
+                    <span>Yeni Öğrenci Ekle</span>
                 </a>
-                <a href="/Admin/OdulleriYonet" class="btn btn-outline-purple" style="color: #7c3aed; border-color: #7c3aed;">
-                    <i class="bi bi-gift me-2"></i>Ödülleri Yönet
+                <a href="/Admin/OdulleriYonet" class="btn d-flex align-items-center gap-2 py-2"
+                   style="background:#f5f3ff;color:#7c3aed;border:1px solid #ede9fe;font-weight:600;">
+                    <i class="bi bi-gift-fill"></i>
+                    <span>Ödülleri Yönet</span>
                 </a>
             </div>
         </div>
     </div>
+
+    <!-- Sistem Bilgisi -->
     <div class="col-md-6">
         <div class="card p-4 h-100">
-            <h6 class="fw-bold mb-3">Sistem Bilgisi</h6>
-            <ul class="list-unstyled text-muted">
-                <li class="mb-2"><i class="bi bi-circle-fill text-success me-2" style="font-size: 0.6rem;"></i>Sistem aktif</li>
-                <li class="mb-2"><i class="bi bi-database me-2"></i>SQLite veritabanı</li>
-                <li class="mb-2"><i class="bi bi-shield-check me-2"></i>BCrypt şifre koruması</li>
-                <li><i class="bi bi-mortarboard me-2"></i>7 Eskişehir lisesi tanımlı</li>
-            </ul>
+            <div class="d-flex align-items-center gap-2 mb-4">
+                <div style="width:34px;height:34px;border-radius:9px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;color:#16a34a;">
+                    <i class="bi bi-activity"></i>
+                </div>
+                <h6 class="fw-bold mb-0" style="color:#0f0e2a;">Sistem Durumu</h6>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:#f9fafb;border:1px solid #f1f5f9;">
+                    <span style="font-size:0.85rem;color:#374151;display:flex;align-items:center;gap:8px;">
+                        <i class="bi bi-circle-fill" style="color:#22c55e;font-size:0.5rem;"></i> Sistem Durumu
+                    </span>
+                    <span style="font-size:0.75rem;font-weight:600;color:#22c55e;background:#f0fdf4;padding:3px 10px;border-radius:20px;">Aktif</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:#f9fafb;border:1px solid #f1f5f9;">
+                    <span style="font-size:0.85rem;color:#374151;display:flex;align-items:center;gap:8px;">
+                        <i class="bi bi-database-fill" style="color:#4f46e5;"></i> Veritabanı
+                    </span>
+                    <span style="font-size:0.75rem;font-weight:600;color:#4f46e5;background:#f5f4ff;padding:3px 10px;border-radius:20px;">SQLite</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:#f9fafb;border:1px solid #f1f5f9;">
+                    <span style="font-size:0.85rem;color:#374151;display:flex;align-items:center;gap:8px;">
+                        <i class="bi bi-shield-check-fill" style="color:#7c3aed;"></i> Şifre Güvenliği
+                    </span>
+                    <span style="font-size:0.75rem;font-weight:600;color:#7c3aed;background:#f5f3ff;padding:3px 10px;border-radius:20px;">BCrypt</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:#f9fafb;border:1px solid #f1f5f9;">
+                    <span style="font-size:0.85rem;color:#374151;display:flex;align-items:center;gap:8px;">
+                        <i class="bi bi-mortarboard-fill" style="color:#f59e0b;"></i> Tanımlı Okul
+                    </span>
+                    <span style="font-size:0.75rem;font-weight:600;color:#92400e;background:#fff7ed;padding:3px 10px;border-radius:20px;">7 Lise</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

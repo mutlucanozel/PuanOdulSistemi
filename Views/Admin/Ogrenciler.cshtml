@@ -8,19 +8,26 @@
     var okullar = ViewBag.Okullar as List<PuanOdulSistemi.Models.OkulBilgisi> ?? new();
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <span class="text-muted">Toplam @Model.Count öğrenci</span>
-    <a href="/Admin/OgrenciEkle" class="btn btn-primary btn-sm">
-        <i class="bi bi-person-plus me-1"></i>Öğrenci Ekle
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <p class="mb-0" style="font-size:0.85rem;color:#9ca3af;">
+            Toplam <strong style="color:#111827;">@Model.Count</strong> öğrenci kayıtlı
+        </p>
+    </div>
+    <a href="/Admin/OgrenciEkle" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
+        <i class="bi bi-person-plus-fill"></i> Öğrenci Ekle
     </a>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="card p-5 text-center text-muted">
-        <div style="font-size: 3rem;">👥</div>
-        <p class="mt-2">Henüz öğrenci yok.</p>
-        <a href="/Admin/OgrenciEkle" class="btn btn-primary">Öğrenci Ekle</a>
+    <div class="card p-5 text-center">
+        <div style="width:72px;height:72px;background:#f5f4ff;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 16px;">👥</div>
+        <h6 class="fw-bold" style="color:#0f0e2a;">Henüz öğrenci yok</h6>
+        <p class="text-muted small mb-3">İlk öğrenciyi ekleyerek başlayın.</p>
+        <a href="/Admin/OgrenciEkle" class="btn btn-primary mx-auto" style="width:fit-content;">
+            <i class="bi bi-person-plus-fill me-2"></i>Öğrenci Ekle
+        </a>
     </div>
 }
 else
@@ -34,56 +41,83 @@ else
             double ortalama = onaylananlar.Count > 0 ? onaylananlar.Average(b => b.Puan) : 0;
             var kazanilanOduller = oduller.Where(o => o.GerekliPuan <= toplamPuan).ToList();
             var enIyiOkul = okullar.Where(o => ortalama >= o.TabanPuan).FirstOrDefault();
+            int bekleyenSayi = basvurular.Count(b => b.Durum == "Bekliyor");
 
-            <div class="col-md-6">
-                <div class="card p-4 h-100">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <div>
-                            <h6 class="fw-bold mb-0">@ogr.Ad</h6>
-                            <span class="text-muted small">@@@ogr.KullaniciAdi</span>
-                        </div>
-                        <span class="fs-4 fw-bold text-primary">@toplamPuan <small class="text-muted fs-6">puan</small></span>
-                    </div>
-
-                    <div class="row g-2 mb-3">
-                        <div class="col-4 text-center bg-light rounded p-2">
-                            <div class="fw-bold text-warning">@basvurular.Count(b => b.Durum == "Bekliyor")</div>
-                            <small class="text-muted">Bekleyen</small>
-                        </div>
-                        <div class="col-4 text-center bg-light rounded p-2">
-                            <div class="fw-bold text-success">@onaylananlar.Count</div>
-                            <small class="text-muted">Onaylanan</small>
-                        </div>
-                        <div class="col-4 text-center bg-light rounded p-2">
-                            <div class="fw-bold" style="color: #8b5cf6;">@kazanilanOduller.Count</div>
-                            <small class="text-muted">Ödül</small>
+            <div class="col-md-6 col-xl-4">
+                <div class="card p-0 h-100" style="overflow:hidden;">
+                    <!-- Card header -->
+                    <div style="padding:18px 20px 14px;background:linear-gradient(135deg,#f7f6fe,#f0eeff);border-bottom:1px solid rgba(79,70,229,0.08);">
+                        <div class="d-flex align-items-center gap-12" style="gap:12px;">
+                            <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;font-weight:700;flex-shrink:0;">
+                                @(ogr.Ad?.Length > 0 ? ogr.Ad[0].ToString().ToUpper() : "?")
+                            </div>
+                            <div style="flex:1;min-width:0;">
+                                <div style="font-size:0.9rem;font-weight:700;color:#0f0e2a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@ogr.Ad</div>
+                                <div style="font-size:0.75rem;color:#9ca3af;">@@@ogr.KullaniciAdi</div>
+                            </div>
+                            <div style="text-align:right;flex-shrink:0;">
+                                <div style="font-size:1.4rem;font-weight:800;color:#4f46e5;letter-spacing:-0.5px;line-height:1;">@toplamPuan</div>
+                                <div style="font-size:0.7rem;color:#9ca3af;">puan</div>
+                            </div>
                         </div>
                     </div>
 
-                    @if (enIyiOkul != null)
-                    {
-                        <div class="alert alert-success py-2 small mb-2">
-                            <i class="bi bi-mortarboard me-1"></i>
-                            <strong>@enIyiOkul.Ad</strong>
-                            <span class="text-muted ms-1">(ort: @ortalama.ToString("F1"))</span>
+                    <!-- Stats row -->
+                    <div style="padding:14px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;border-bottom:1px solid rgba(79,70,229,0.08);">
+                        <div style="text-align:center;padding:8px 4px;border-radius:10px;background:#fffbeb;">
+                            <div style="font-size:1.1rem;font-weight:700;color:#f59e0b;">@bekleyenSayi</div>
+                            <div style="font-size:0.68rem;color:#9ca3af;">Bekleyen</div>
                         </div>
-                    }
-                    else if (ortalama > 0)
-                    {
-                        <div class="alert alert-secondary py-2 small mb-2">
-                            <i class="bi bi-mortarboard me-1"></i>Ortalama: @ortalama.ToString("F1") — okul eşiği yok
+                        <div style="text-align:center;padding:8px 4px;border-radius:10px;background:#f0fdf4;">
+                            <div style="font-size:1.1rem;font-weight:700;color:#16a34a;">@onaylananlar.Count</div>
+                            <div style="font-size:0.68rem;color:#9ca3af;">Onaylanan</div>
                         </div>
-                    }
+                        <div style="text-align:center;padding:8px 4px;border-radius:10px;background:#f5f3ff;">
+                            <div style="font-size:1.1rem;font-weight:700;color:#7c3aed;">@kazanilanOduller.Count</div>
+                            <div style="font-size:0.68rem;color:#9ca3af;">Ödül</div>
+                        </div>
+                    </div>
 
-                    @if (kazanilanOduller.Any())
-                    {
-                        <div class="d-flex flex-wrap gap-1">
-                            @foreach (var odul in kazanilanOduller)
-                            {
-                                <span class="badge rounded-pill" style="background-color: #ede9fe; color: #7c3aed;">🎁 @odul.Ad</span>
-                            }
-                        </div>
-                    }
+                    <!-- Okul / Ödüller -->
+                    <div style="padding:14px 20px;flex:1;">
+                        @if (enIyiOkul != null)
+                        {
+                            <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;margin-bottom:10px;">
+                                <i class="bi bi-mortarboard-fill" style="color:#16a34a;font-size:0.85rem;"></i>
+                                <span style="font-size:0.82rem;font-weight:600;color:#15803d;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">@enIyiOkul.Ad</span>
+                                <span style="font-size:0.72rem;color:#9ca3af;flex-shrink:0;">@ortalama.ToString("F1")</span>
+                            </div>
+                        }
+                        else if (ortalama > 0)
+                        {
+                            <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;background:#f9fafb;border:1px solid #e5e7eb;margin-bottom:10px;">
+                                <i class="bi bi-mortarboard" style="color:#9ca3af;font-size:0.85rem;"></i>
+                                <span style="font-size:0.82rem;color:#6b7280;">Ort: @ortalama.ToString("F1") — Eşik yok</span>
+                            </div>
+                        }
+
+                        @if (kazanilanOduller.Any())
+                        {
+                            <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                                @foreach (var odul in kazanilanOduller.Take(3))
+                                {
+                                    <span style="font-size:0.72rem;font-weight:600;padding:3px 9px;border-radius:20px;background:#f5f3ff;color:#7c3aed;border:1px solid #ede9fe;">
+                                        🎁 @odul.Ad
+                                    </span>
+                                }
+                                @if (kazanilanOduller.Count > 3)
+                                {
+                                    <span style="font-size:0.72rem;font-weight:600;padding:3px 9px;border-radius:20px;background:#f5f3ff;color:#7c3aed;border:1px solid #ede9fe;">
+                                        +@(kazanilanOduller.Count - 3)
+                                    </span>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p style="font-size:0.8rem;color:#9ca3af;margin:0;">Henüz ödül kazanılmadı.</p>
+                        }
+                    </div>
                 </div>
             </div>
         }

@@ -5,42 +5,68 @@
 }
 
 <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-5">
-        <div class="card p-4">
-            <h5 class="fw-bold mb-4"><i class="bi bi-person-plus text-primary me-2"></i>Yeni Öğrenci Ekle</h5>
-
-            @if (ViewBag.Hata != null)
-            {
-                <div class="alert alert-danger">
-                    <i class="bi bi-exclamation-circle me-2"></i>@ViewBag.Hata
-                </div>
-            }
-
-            <form method="post" asp-controller="Admin" asp-action="OgrenciEkle">
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Ad Soyad *</label>
-                    <input type="text" name="ad" class="form-control" required placeholder="ör: Ayşe Kaya" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Kullanıcı Adı *</label>
-                    <div class="input-group">
-                        <span class="input-group-text">@@</span>
-                        <input type="text" name="kullaniciAdi" class="form-control" required placeholder="ör: ayse" />
+    <div class="col-md-9 col-lg-6 col-xl-5">
+        <div class="card p-0" style="overflow:hidden;">
+            <!-- Form header -->
+            <div style="padding:20px 24px 18px;background:linear-gradient(135deg,#f7f6fe,#f0eeff);border-bottom:1px solid rgba(79,70,229,0.08);">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+                    <div>
+                        <h5 style="font-size:0.95rem;font-weight:700;color:#0f0e2a;margin:0 0 2px;">Yeni Öğrenci Ekle</h5>
+                        <p style="font-size:0.75rem;color:#9ca3af;margin:0;">Öğrenci bilgilerini doldurun.</p>
                     </div>
                 </div>
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Şifre *</label>
-                    <input type="password" name="sifre" class="form-control" required placeholder="Şifre belirleyin" minlength="4" />
-                </div>
-                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-                    <i class="bi bi-person-plus me-2"></i>Öğrenci Ekle
-                </button>
-            </form>
+            </div>
+
+            <div style="padding:24px;">
+                @if (ViewBag.Hata != null)
+                {
+                    <div class="alert alert-danger d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        @ViewBag.Hata
+                    </div>
+                }
+
+                <form method="post" asp-controller="Admin" asp-action="OgrenciEkle">
+                    <div class="mb-3">
+                        <label class="form-label">Ad Soyad <span style="color:#ef4444;">*</span></label>
+                        <div style="position:relative;">
+                            <i class="bi bi-person" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af;"></i>
+                            <input type="text" name="ad" class="form-control" style="padding-left:38px;"
+                                   required placeholder="ör: Ayşe Kaya" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Kullanıcı Adı <span style="color:#ef4444;">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text">@</span>
+                            <input type="text" name="kullaniciAdi" class="form-control"
+                                   required placeholder="ör: ayse" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Şifre <span style="color:#ef4444;">*</span></label>
+                        <div style="position:relative;">
+                            <i class="bi bi-lock" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af;"></i>
+                            <input type="password" name="sifre" class="form-control" style="padding-left:38px;"
+                                   required placeholder="Şifre belirleyin" minlength="4" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <i class="bi bi-person-plus-fill me-2"></i>Öğrenci Ekle
+                    </button>
+                </form>
+            </div>
         </div>
 
         <div class="text-center mt-3">
-            <a href="/Admin/Ogrenciler" class="btn btn-outline-secondary btn-sm">
-                <i class="bi bi-arrow-left me-1"></i>Öğrenci Listesine Dön
+            <a href="/Admin/Ogrenciler" style="font-size:0.82rem;color:#6b7280;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
+                <i class="bi bi-arrow-left"></i> Öğrenci Listesine Dön
             </a>
         </div>
     </div>

@@ -8,271 +8,401 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
     <style>
+        :root {
+            --c-primary: #4f46e5;
+            --c-primary-dark: #4338ca;
+            --c-violet: #7c3aed;
+            --c-purple: #a855f7;
+            --c-bg: #f7f6fe;
+            --c-surface: #ffffff;
+            --c-border: rgba(79, 70, 229, 0.1);
+            --c-text: #111827;
+            --c-text-2: #6b7280;
+            --c-text-3: #9ca3af;
+            --radius: 14px;
+            --radius-sm: 10px;
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 2px 8px rgba(79,70,229,0.04);
+            --shadow: 0 4px 16px rgba(79,70,229,0.1), 0 1px 4px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 28px rgba(79,70,229,0.16);
+            --sidebar-w: 256px;
+            --topbar-h: 62px;
+        }
+
         *, *::before, *::after { box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #eef2ff;
+            background: var(--c-bg);
             margin: 0;
             min-height: 100vh;
+            color: var(--c-text);
+            -webkit-font-smoothing: antialiased;
         }
+
+        .app { display: flex; min-height: 100vh; }
 
         /* ── Sidebar ── */
         .sidebar {
-            width: 248px;
+            width: var(--sidebar-w);
             flex-shrink: 0;
-            min-height: 100vh;
-            background: #fff;
-            border-right: 1px solid #e0e7ff;
+            background: var(--c-surface);
+            border-right: 1px solid var(--c-border);
             display: flex;
             flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
         }
 
-        .sidebar-brand {
-            background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 70%, #7c3aed 100%);
-            padding: 22px 20px 20px;
+        .sidebar::-webkit-scrollbar { width: 3px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 4px; }
+
+        .sb-header {
+            padding: 20px 18px 18px;
+            background: linear-gradient(150deg, #1e1b4b 0%, #3730a3 40%, #4f46e5 80%, #6d28d9 100%);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .sidebar-brand::after {
+        .sb-header::before {
             content: '';
             position: absolute;
-            bottom: -30px; right: -20px;
-            width: 100px; height: 100px;
-            background: rgba(255,255,255,0.06);
+            top: -50px; right: -30px;
+            width: 150px; height: 150px;
+            background: rgba(255,255,255,0.05);
             border-radius: 50%;
         }
 
-        .sidebar-brand-icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 1;
+        .sb-header::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: -20px;
+            width: 130px; height: 130px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 50%;
         }
 
-        .sidebar-brand-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            margin: 0 0 2px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .sidebar-brand-sub {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.7);
-            margin: 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .sidebar-nav { padding: 16px 12px; flex: 1; }
-
-        .sidebar-section-label {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            color: #818cf8;
-            padding: 6px 10px 4px;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .sidebar-link {
+        .sb-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 9px 12px;
-            border-radius: 9px;
-            text-decoration: none;
-            color: #4b5563;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: all 0.18s;
-            margin-bottom: 2px;
+            gap: 11px;
+            position: relative;
+            z-index: 1;
         }
 
-        .sidebar-link i {
-            font-size: 1rem;
-            width: 20px;
-            text-align: center;
+        .sb-logo-box {
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
             flex-shrink: 0;
         }
 
-        .sidebar-link:hover {
-            background: #eef2ff;
-            color: #4f46e5;
+        .sb-logo-title { font-size: 0.92rem; font-weight: 700; color: #fff; display: block; line-height: 1.25; }
+        .sb-logo-sub   { font-size: 0.7rem; color: rgba(255,255,255,0.6); display: block; }
+
+        .sb-nav { padding: 14px 12px; flex: 1; }
+
+        .sb-section {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            color: var(--c-text-3);
+            padding: 10px 12px 6px;
         }
 
-        .sidebar-link.active {
-            background: linear-gradient(135deg, #e0e7ff, #ede9fe);
-            color: #4f46e5;
+        .sb-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--c-text-2);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+            margin-bottom: 1px;
+        }
+
+        .sb-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+        }
+
+        .sb-link:hover { background: #f5f4ff; color: var(--c-primary); }
+        .sb-link:hover .sb-icon { background: rgba(79,70,229,0.08); color: var(--c-primary); }
+
+        .sb-link.active {
+            background: linear-gradient(135deg, rgba(79,70,229,0.09), rgba(124,58,237,0.05));
+            color: var(--c-primary);
             font-weight: 600;
-            box-shadow: inset 3px 0 0 #4f46e5;
         }
 
-        .sidebar-divider {
-            border: none;
-            border-top: 1px solid #f3f4f6;
-            margin: 10px 0;
+        .sb-link.active .sb-icon {
+            background: var(--c-primary);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(79,70,229,0.38);
         }
 
-        .sidebar-link.danger { color: #dc2626; }
-        .sidebar-link.danger:hover { background: #fef2f2; color: #b91c1c; }
+        .sb-divider { height: 1px; background: var(--c-border); margin: 10px 10px; }
 
-        /* ── Main content ── */
-        .main-content { flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+        .sb-link.danger { color: #ef4444; }
+        .sb-link.danger:hover { background: #fff1f2; color: #dc2626; }
+        .sb-link.danger:hover .sb-icon { background: rgba(239,68,68,0.1); color: #dc2626; }
+
+        /* Sidebar footer / user card */
+        .sb-footer {
+            padding: 12px;
+            border-top: 1px solid var(--c-border);
+            flex-shrink: 0;
+        }
+
+        .sb-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 12px;
+            background: #f5f4ff;
+        }
+
+        .sb-user-av {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--c-primary), var(--c-violet));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .sb-user-name { font-size: 0.82rem; font-weight: 600; color: var(--c-text); display: block; line-height: 1.2; }
+        .sb-user-role { font-size: 0.68rem; color: var(--c-text-3); display: block; }
+
+        /* ── Main ── */
+        .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 
         /* ── Topbar ── */
         .topbar {
-            background: #fff;
-            border-bottom: 1px solid #e0e7ff;
-            padding: 0 24px;
-            height: 60px;
+            background: var(--c-surface);
+            border-bottom: 1px solid var(--c-border);
+            padding: 0 26px;
+            height: var(--topbar-h);
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: var(--shadow-xs);
         }
 
-        .topbar-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e1b4b;
-            margin: 0;
-        }
+        .topbar-title { font-size: 1rem; font-weight: 700; color: var(--c-text); margin: 0; letter-spacing: -0.3px; }
+        .topbar-right { display: flex; align-items: center; gap: 10px; }
 
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .topbar-avatar {
+        .topbar-av {
             width: 34px;
             height: 34px;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            border-radius: 50%;
+            background: linear-gradient(135deg, var(--c-primary), var(--c-violet));
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 700;
         }
 
-        .topbar-name {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #374151;
-        }
+        .topbar-name { font-size: 0.875rem; font-weight: 600; color: var(--c-text); }
 
-        /* ── Content area ── */
-        .content-area { padding: 28px; flex: 1; }
+        /* ── Content ── */
+        .content { padding: 26px; flex: 1; }
 
         /* ── Cards ── */
         .card {
-            border-radius: 14px;
-            box-shadow: 0 1px 8px rgba(79, 70, 229, 0.07);
-            border: 1px solid #e0e7ff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--c-border);
+            background: var(--c-surface);
+            transition: box-shadow 0.2s;
         }
 
         .stat-card {
-            border-radius: 14px;
-            border: 1px solid #e0e7ff;
-            box-shadow: 0 1px 8px rgba(79, 70, 229, 0.07);
-            transition: transform .2s, box-shadow .2s;
+            border-radius: var(--radius);
+            border: 1px solid var(--c-border);
+            background: var(--c-surface);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
         }
 
         .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.12);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
         }
 
-        /* ── Tables ── */
+        /* ── Alerts ── */
+        .alert { border-radius: 12px; font-size: 0.875rem; }
+        .alert-success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+        .alert-danger  { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+        .alert-warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+
+        /* ── Table ── */
         .table { font-size: 0.875rem; }
         .table thead th {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
             text-transform: uppercase;
-            color: #6b7280;
-            background: #f9f9ff;
-            border-bottom: 1px solid #e0e7ff;
+            color: var(--c-text-3);
+            background: #faf9ff;
+            border-bottom: 1px solid var(--c-border);
+            padding: 12px 16px;
         }
+        .table td { padding: 13px 16px; vertical-align: middle; border-color: var(--c-border); }
+        .table tbody tr { transition: background 0.12s; }
+        .table tbody tr:hover { background: #faf9ff; }
 
-        /* ── Reward cards ── */
-        .odul-card .placeholder-img { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #4f46e5 0%, #a855f7 100%); font-size: 4rem; }
+        /* Reward cards */
+        .odul-card .placeholder-img {
+            width: 100%; height: 180px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, var(--c-primary), var(--c-purple));
+            font-size: 4rem;
+        }
         .odul-card img { width: 100%; height: 180px; object-fit: cover; }
         .okul-satir.girebilir { background-color: #d1e7dd !important; border-left: 4px solid #198754; }
-        .progress { height: 8px; border-radius: 4px; }
 
-        /* ── Buttons ── */
-        .btn-primary { background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none; font-weight: 500; }
-        .btn-primary:hover { background: linear-gradient(135deg, #4338ca, #6d28d9); border: none; }
+        /* Progress */
+        .progress { height: 8px; border-radius: 4px; background: #f1f5f9; }
+
+        /* Buttons */
+        .btn { border-radius: var(--radius-sm); font-weight: 500; font-size: 0.875rem; }
+        .btn-primary { background: linear-gradient(135deg, var(--c-primary), var(--c-violet)); border: none; font-weight: 600; }
+        .btn-primary:hover { background: linear-gradient(135deg, var(--c-primary-dark), #6d28d9); border: none; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(79,70,229,0.3); }
+
+        /* Form Controls */
+        .form-control, .form-select {
+            border: 1.5px solid #e5e7eb;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            padding: 9px 13px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fafafa;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--c-primary);
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+            background: #fff;
+        }
+        .input-group-text { border: 1.5px solid #e5e7eb; background: #f5f4ff; font-size: 0.875rem; }
+        .form-label { font-size: 0.8rem; font-weight: 600; color: var(--c-text); margin-bottom: 6px; }
     </style>
 </head>
 <body>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-brand">
-                <span class="sidebar-brand-icon">🏆</span>
-                <p class="sidebar-brand-title">Puan & Ödül</p>
-                <p class="sidebar-brand-sub">Öğrenci Paneli</p>
-            </div>
-
-            <div class="sidebar-nav">
-                <div class="sidebar-section-label">Menü</div>
-
-                <a href="/Ogrenci/Index" class="sidebar-link @(ViewData["Active"]?.ToString() == "Index" ? "active" : "")">
-                    <i class="bi bi-house"></i> Ana Sayfa
-                </a>
-                <a href="/Ogrenci/PuanGir" class="sidebar-link @(ViewData["Active"]?.ToString() == "PuanGir" ? "active" : "")">
-                    <i class="bi bi-plus-circle"></i> Puan Gir
-                </a>
-                <a href="/Ogrenci/Puanlarim" class="sidebar-link @(ViewData["Active"]?.ToString() == "Puanlarim" ? "active" : "")">
-                    <i class="bi bi-list-check"></i> Puanlarım
-                </a>
-                <a href="/Ogrenci/Oduller" class="sidebar-link @(ViewData["Active"]?.ToString() == "Oduller" ? "active" : "")">
-                    <i class="bi bi-gift"></i> Ödüller
-                </a>
-                <a href="/Ogrenci/OkulTahmini" class="sidebar-link @(ViewData["Active"]?.ToString() == "OkulTahmini" ? "active" : "")">
-                    <i class="bi bi-mortarboard"></i> Okul Tahmini
-                </a>
-
-                <hr class="sidebar-divider" />
-
-                <a href="/Hesap/Cikis" class="sidebar-link danger">
-                    <i class="bi bi-box-arrow-left"></i> Çıkış Yap
-                </a>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="topbar">
-                <h5 class="topbar-title">@ViewData["Title"]</h5>
-                <div class="topbar-right">
-                    <div class="topbar-avatar">
-                        @(ViewBag.Ad?.ToString()?.Length > 0 ? ViewBag.Ad.ToString()[0].ToString().ToUpper() : "Ö")
-                    </div>
-                    <span class="topbar-name">@ViewBag.Ad</span>
+<div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sb-header">
+            <div class="sb-logo">
+                <div class="sb-logo-box">🏆</div>
+                <div>
+                    <span class="sb-logo-title">Puan & Ödül</span>
+                    <span class="sb-logo-sub">Öğrenci Paneli</span>
                 </div>
             </div>
+        </div>
 
-            <div class="content-area">
-                @RenderBody()
+        <nav class="sb-nav">
+            <div class="sb-section">Menü</div>
+
+            <a href="/Ogrenci/Index" class="sb-link @(ViewData["Active"]?.ToString() == "Index" ? "active" : "")">
+                <span class="sb-icon"><i class="bi bi-house-fill"></i></span>
+                Ana Sayfa
+            </a>
+
+            <a href="/Ogrenci/PuanGir" class="sb-link @(ViewData["Active"]?.ToString() == "PuanGir" ? "active" : "")">
+                <span class="sb-icon"><i class="bi bi-plus-circle-fill"></i></span>
+                Puan Gir
+            </a>
+
+            <a href="/Ogrenci/Puanlarim" class="sb-link @(ViewData["Active"]?.ToString() == "Puanlarim" ? "active" : "")">
+                <span class="sb-icon"><i class="bi bi-list-check"></i></span>
+                Puanlarım
+            </a>
+
+            <a href="/Ogrenci/Oduller" class="sb-link @(ViewData["Active"]?.ToString() == "Oduller" ? "active" : "")">
+                <span class="sb-icon"><i class="bi bi-gift-fill"></i></span>
+                Ödüller
+            </a>
+
+            <a href="/Ogrenci/OkulTahmini" class="sb-link @(ViewData["Active"]?.ToString() == "OkulTahmini" ? "active" : "")">
+                <span class="sb-icon"><i class="bi bi-mortarboard-fill"></i></span>
+                Okul Tahmini
+            </a>
+
+            <div class="sb-divider"></div>
+
+            <a href="/Hesap/Cikis" class="sb-link danger">
+                <span class="sb-icon"><i class="bi bi-box-arrow-left"></i></span>
+                Çıkış Yap
+            </a>
+        </nav>
+
+        <div class="sb-footer">
+            <div class="sb-user">
+                <div class="sb-user-av">
+                    @(ViewBag.Ad?.ToString()?.Length > 0 ? ViewBag.Ad.ToString()[0].ToString().ToUpper() : "Ö")
+                </div>
+                <div>
+                    <span class="sb-user-name">@ViewBag.Ad</span>
+                    <span class="sb-user-role">Öğrenci</span>
+                </div>
             </div>
         </div>
-    </div>
+    </aside>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Main Content -->
+    <div class="main">
+        <header class="topbar">
+            <h5 class="topbar-title">@ViewData["Title"]</h5>
+            <div class="topbar-right">
+                <div class="topbar-av">
+                    @(ViewBag.Ad?.ToString()?.Length > 0 ? ViewBag.Ad.ToString()[0].ToString().ToUpper() : "Ö")
+                </div>
+                <span class="topbar-name">@ViewBag.Ad</span>
+            </div>
+        </header>
+
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

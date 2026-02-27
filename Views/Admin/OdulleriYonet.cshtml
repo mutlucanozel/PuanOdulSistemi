@@ -6,46 +6,69 @@
 }
 
 <div class="row g-4">
-    <!-- Yeni Ödül Ekle Formu -->
+    <!-- Yeni Ödül Ekle -->
     <div class="col-lg-4">
-        <div class="card p-4 h-100">
-            <h6 class="fw-bold mb-4"><i class="bi bi-plus-circle me-2 text-primary"></i>Yeni Ödül Ekle</h6>
-            <form method="post" asp-controller="Admin" asp-action="OdulEkle" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label class="form-label fw-semibold small">Ödül Adı *</label>
-                    <input type="text" name="ad" class="form-control" required placeholder="ör: Kalem Seti" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold small">Açıklama</label>
-                    <textarea name="aciklama" class="form-control" rows="2" placeholder="Ödül açıklaması..."></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold small">Gerekli Puan *</label>
-                    <div class="input-group">
-                        <input type="number" name="gerekliPuan" class="form-control" required min="1" placeholder="ör: 100" />
-                        <span class="input-group-text">puan</span>
+        <div class="card p-0 h-100" style="overflow:hidden;">
+            <div style="padding:18px 20px 16px;background:linear-gradient(135deg,#f7f6fe,#f0eeff);border-bottom:1px solid rgba(79,70,229,0.08);">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.95rem;">
+                        <i class="bi bi-plus-lg"></i>
+                    </div>
+                    <div>
+                        <h6 style="font-size:0.9rem;font-weight:700;color:#0f0e2a;margin:0;">Yeni Ödül Ekle</h6>
+                        <p style="font-size:0.72rem;color:#9ca3af;margin:0;">Ödül bilgilerini doldurun</p>
                     </div>
                 </div>
-                <div class="mb-4">
-                    <label class="form-label fw-semibold small">Ödül Görseli</label>
-                    <input type="file" name="gorsel" class="form-control" accept="image/*" id="gorselInput" />
-                    <div id="gorselOnizleme" class="mt-2 d-none">
-                        <img id="gorselOnizlemeImg" src="" class="img-thumbnail" style="max-height: 150px;" />
+            </div>
+
+            <div style="padding:20px;">
+                <form method="post" asp-controller="Admin" asp-action="OdulEkle" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Ödül Adı <span style="color:#ef4444;">*</span></label>
+                        <input type="text" name="ad" class="form-control" required placeholder="ör: Kalem Seti" />
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary w-100 fw-semibold">
-                    <i class="bi bi-plus me-2"></i>Ödül Ekle
-                </button>
-            </form>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama</label>
+                        <textarea name="aciklama" class="form-control" rows="2" placeholder="Ödül açıklaması..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gerekli Puan <span style="color:#ef4444;">*</span></label>
+                        <div class="input-group">
+                            <input type="number" name="gerekliPuan" class="form-control" required min="1" placeholder="ör: 100" />
+                            <span class="input-group-text">puan</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Ödül Görseli</label>
+                        <input type="file" name="gorsel" class="form-control" accept="image/*" id="gorselInput" />
+                        <div id="gorselOnizleme" class="mt-2 d-none">
+                            <img id="gorselOnizlemeImg" src="" class="rounded"
+                                 style="max-height:130px;max-width:100%;border:1px solid rgba(79,70,229,0.15);" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-plus-lg me-2"></i>Ödül Ekle
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
     <!-- Mevcut Ödüller -->
     <div class="col-lg-8">
-        <h6 class="fw-bold mb-3">Mevcut Ödüller (@Model.Count)</h6>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 style="font-size:0.9rem;font-weight:700;color:#0f0e2a;margin:0;">
+                Mevcut Ödüller
+                <span style="font-size:0.75rem;font-weight:600;color:#7c3aed;background:#f5f3ff;padding:2px 9px;border-radius:20px;margin-left:6px;">@Model.Count</span>
+            </h6>
+        </div>
+
         @if (!Model.Any())
         {
-            <div class="card p-4 text-center text-muted">Henüz ödül yok.</div>
+            <div class="card p-5 text-center">
+                <div style="width:60px;height:60px;background:#f5f3ff;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 14px;">🎁</div>
+                <p class="text-muted mb-0">Henüz ödül eklenmemiş.</p>
+            </div>
         }
         else
         {
@@ -53,22 +76,28 @@
                 @foreach (var odul in Model)
                 {
                     <div class="col-sm-6">
-                        <div class="card odul-card h-100">
+                        <div class="card odul-card h-100 p-0" style="overflow:hidden;">
                             @if (!string.IsNullOrEmpty(odul.GorselYolu))
                             {
-                                <img src="@odul.GorselYolu" alt="@odul.Ad" />
+                                <img src="@odul.GorselYolu" alt="@odul.Ad" style="width:100%;height:150px;object-fit:cover;" />
                             }
                             else
                             {
-                                <div class="placeholder-img">🎁</div>
+                                <div style="width:100%;height:150px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4f46e5,#a855f7);font-size:3rem;">🎁</div>
                             }
-                            <div class="card-body">
-                                <h6 class="card-title fw-bold">@odul.Ad</h6>
+                            <div style="padding:16px 18px 18px;">
+                                <h6 style="font-size:0.9rem;font-weight:700;color:#0f0e2a;margin:0 0 4px;">@odul.Ad</h6>
                                 @if (!string.IsNullOrEmpty(odul.Aciklama))
                                 {
-                                    <p class="card-text text-muted small">@odul.Aciklama</p>
+                                    <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 10px;line-height:1.4;">@odul.Aciklama</p>
                                 }
-                                <p class="fw-bold text-primary mb-3">@odul.GerekliPuan puan</p>
+                                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                                    <div style="display:flex;align-items:center;gap:5px;">
+                                        <i class="bi bi-star-fill" style="color:#f59e0b;font-size:0.8rem;"></i>
+                                        <span style="font-size:0.88rem;font-weight:700;color:#4f46e5;">@odul.GerekliPuan</span>
+                                        <span style="font-size:0.75rem;color:#9ca3af;">puan gerekli</span>
+                                    </div>
+                                </div>
                                 <form method="post" asp-controller="Admin" asp-action="OdulSil"
                                       onsubmit="return confirm('@odul.Ad ödülünü silmek istediğinize emin misiniz?')">
                                     <input type="hidden" name="id" value="@odul.Id" />
