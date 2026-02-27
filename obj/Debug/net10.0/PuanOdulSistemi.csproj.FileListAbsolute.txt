@@ -118,9 +118,7 @@ C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\rjsmcshtml.dswa.cac
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\scopedcss\bundle\PuanOdulSistemi.styles.css
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\scopedcss\projectbundle\PuanOdulSistemi.bundle.scp.css
-C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\4k9szh7bpk-{0}-b9sayid5wm-b9sayid5wm.gz
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\cxo8c15t75-{0}-61n19gt1b8-61n19gt1b8.gz
-C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\qsp4wcvb8p-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\rwh6r0vitu-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\umylqn10wf-{0}-c2jlpeoesf-c2jlpeoesf.gz
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\3rvw7xdh18-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -194,4 +192,5 @@ C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.pdb
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.genruntimeconfig.cache
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\ref\PuanOdulSistemi.dll
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.sourcelink.json
-C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\4k9szh7bpk-{0}-g7m271p5nv-g7m271p5nv.gz
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\4k9szh7bpk-{0}-18jook1h8v-18jook1h8v.gz
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\qsp4wcvb8p-{0}-4nyv8pznb8-4nyv8pznb8.gz

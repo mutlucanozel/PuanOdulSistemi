@@ -3,107 +3,76 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="auth-shell">
-    <aside class="auth-showcase">
-        <div class="auth-brand">
-            <span class="auth-brand-chip"><i class="bi bi-lightning-charge-fill"></i> Akilli Takip</span>
-            <h1 class="auth-brand-title">Puanlarini Yonet,<br />Odulleri Topla.</h1>
-            <p class="auth-brand-text">
-                Basarilarini tek panelde takip et, puan biriktir ve hedefledigin odullere adim adim ulas.
-            </p>
+<div class="login-min-shell">
+    <canvas id="loginParticles" class="login-particle-canvas" aria-hidden="true"></canvas>
+
+    <section class="auth-card login-cool-card login-min-card">
+        <div class="login-cool-card-edge"></div>
+
+        <div class="auth-tabs login-tabs-pretty">
+            <a href="/Hesap/Giris" class="auth-tab active">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Giris Yap</span>
+            </a>
+            <a href="/Hesap/KayitOl" class="auth-tab">
+                <i class="bi bi-person-plus"></i>
+                <span>Kayit Ol</span>
+            </a>
         </div>
 
-        <div class="auth-points">
-            <div class="auth-point">
-                <span class="auth-point-icon"><i class="bi bi-stars"></i></span>
-                <div>
-                    <h6>Basari Kaydi</h6>
-                    <p>Her aktiviteni ekle, puan kazanma surecini anlik takip et.</p>
-                </div>
-            </div>
-            <div class="auth-point">
-                <span class="auth-point-icon"><i class="bi bi-gift-fill"></i></span>
-                <div>
-                    <h6>Odul Takibi</h6>
-                    <p>Hangi odullere ne kadar yaklastigini net olarak gor.</p>
-                </div>
-            </div>
-            <div class="auth-point">
-                <span class="auth-point-icon"><i class="bi bi-mortarboard-fill"></i></span>
-                <div>
-                    <h6>Okul Tahmini</h6>
-                    <p>Onayli puan ortalamanla ulasabilecegin okullari kesfet.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="auth-footer-note">
-            © @DateTime.Now.Year Puan Odul Sistemi
-        </div>
-    </aside>
-
-    <section class="auth-form-area">
-        <div class="w-100" style="max-width: 460px;">
-            <div class="auth-mobile-brand">
-                <h2>Puan Odul Sistemi</h2>
-                <p>Puanlarini ve hedeflerini tek yerden yonet.</p>
+        <div class="auth-content login-min-content">
+            <div class="auth-card-head">
+                <span class="auth-mini-kicker"><i class="bi bi-shield-check"></i> Guvenli Alan</span>
+                <h2>Hesabina Giris Yap</h2>
+                <p>Kullanici bilgilerini girerek devam et.</p>
             </div>
 
-            <div class="auth-card">
-                <div class="auth-tabs">
-                    <a href="/Hesap/Giris" class="auth-tab active">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Giris Yap
-                    </a>
-                    <a href="/Hesap/KayitOl" class="auth-tab">
-                        <i class="bi bi-person-plus me-1"></i> Kayit Ol
-                    </a>
+            @if (TempData["Basari"] != null)
+            {
+                <div class="alert alert-success py-2 mb-3">
+                    <i class="bi bi-check-circle-fill me-1"></i> @TempData["Basari"]
                 </div>
+            }
 
-                <div class="auth-content">
-                    <h5 class="auth-title">Tekrar hos geldin</h5>
-                    <p class="auth-subtitle">Hesabina giris yaparak paneline don.</p>
+            @if (ViewBag.Hata != null)
+            {
+                <div class="alert alert-danger py-2 mb-3">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i> @ViewBag.Hata
+                </div>
+            }
 
-                    @if (TempData["Basari"] != null)
-                    {
-                        <div class="alert alert-success py-2 mb-3">
-                            <i class="bi bi-check-circle-fill me-1"></i> @TempData["Basari"]
-                        </div>
-                    }
-
-                    @if (ViewBag.Hata != null)
-                    {
-                        <div class="alert alert-danger py-2 mb-3">
-                            <i class="bi bi-exclamation-triangle-fill me-1"></i> @ViewBag.Hata
-                        </div>
-                    }
-
-                    <form method="post" asp-controller="Hesap" asp-action="Giris">
-                        <div class="auth-field">
-                            <label class="form-label">Kullanici Adi</label>
-                            <div class="auth-input-wrap">
-                                <i class="bi bi-person"></i>
-                                <input class="auth-input" type="text" name="kullaniciAdi" placeholder="kullanici adin" required autocomplete="username" />
-                            </div>
-                        </div>
-
-                        <div class="auth-field">
-                            <label class="form-label">Sifre</label>
-                            <div class="auth-input-wrap">
-                                <i class="bi bi-lock"></i>
-                                <input class="auth-input" type="password" name="sifre" placeholder="sifren" required autocomplete="current-password" />
-                            </div>
-                        </div>
-
-                        <button type="submit" class="auth-btn">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> Giris Yap
-                        </button>
-                    </form>
-
-                    <div class="auth-note">
-                        Hesabin yok mu? <a href="/Hesap/KayitOl">Kayit ol</a>
+            <form method="post" asp-controller="Hesap" asp-action="Giris">
+                <div class="auth-field">
+                    <label class="form-label">Kullanici Adi</label>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-person"></i>
+                        <input class="auth-input" type="text" name="kullaniciAdi" placeholder="kullanici adin" required autocomplete="username" />
                     </div>
                 </div>
-            </div>
+
+                <div class="auth-field">
+                    <label class="form-label">Sifre</label>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-lock"></i>
+                        <input class="auth-input" type="password" name="sifre" placeholder="sifren" required autocomplete="current-password" />
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn login-cool-btn">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Giris Yap
+                </button>
+            </form>
         </div>
     </section>
 </div>
+
+@section Scripts {
+<script>
+    if (window.initAuthParticles) {
+        window.initAuthParticles("loginParticles");
+    }
+    if (window.initAuthCardFx) {
+        window.initAuthCardFx();
+    }
+</script>
+}
