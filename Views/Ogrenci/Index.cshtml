@@ -8,6 +8,7 @@
     int bekleyenSayi = ViewBag.BekleyenSayi ?? 0;
     int onaylananSayi = ViewBag.OnaylananSayi ?? 0;
     var kazanilanOduller = ViewBag.KazanilanOduller as List<PuanOdulSistemi.Models.Odul> ?? new();
+    var tumOduller = ViewBag.TumOduller as List<PuanOdulSistemi.Models.Odul> ?? new();
     var okullar = ViewBag.Okullar as List<PuanOdulSistemi.Models.OkulBilgisi> ?? new();
     double ortalama = onaylananSayi > 0 ? (double)toplamPuan / onaylananSayi : 0;
     var enIyiOkul = okullar.Where(o => ortalama >= o.TabanPuan).FirstOrDefault();
@@ -70,7 +71,7 @@
             @if (enIyiOkul != null)
             {
                 <div class="alert alert-success py-2 mb-2">
-                    <i class="bi bi-check-circle-fill me-1"></i> <strong>@enIyiOkul.Ad</strong> icin puanin yeterli.
+                    <i class="bi bi-check-circle-fill me-1"></i> <strong>@enIyiOkul.Ad</strong>🎉🎉🎉 icin puanin yeterli.
                 </div>
             }
             else
@@ -89,26 +90,60 @@
     </section>
 
     <section class="surface-card p-3">
-        <h2 class="surface-title mb-1"><i class="bi bi-trophy-fill me-2"></i>Kazanilan Oduller</h2>
-        <p class="surface-subtitle mb-3">Puanina gore acilan oduller.</p>
+        <h2 class="surface-title mb-1"><i class="bi bi-trophy-fill me-2"></i>Tum Oduller</h2>
+        <p class="surface-subtitle mb-3">Tum oduller gorselleriyle burada listelenir.</p>
 
-        @if (kazanilanOduller.Any())
+        @if (tumOduller.Any())
         {
-            <div>
-                @foreach (var odul in kazanilanOduller)
+            <div class="reward-grid">
+                @foreach (var odul in tumOduller)
                 {
-                    <span class="mini-chip accent">
-                        <i class="bi bi-gift-fill me-1"></i>@odul.Ad
-                    </span>
+                    bool kazanildi = toplamPuan >= odul.GerekliPuan;
+                    int ilerleme = odul.GerekliPuan > 0 ? (int)Math.Min(100, (double)toplamPuan / odul.GerekliPuan * 100) : 100;
+
+                    <article class="reward-card">
+                        <div class="reward-media position-relative">
+                            @if (!string.IsNullOrEmpty(odul.GorselYolu))
+                            {
+                                <img src="@odul.GorselYolu" alt="@odul.Ad" />
+                            }
+                            else
+                            {
+                                <i class="bi bi-gift-fill"></i>
+                            }
+
+                            <span class="position-absolute top-0 end-0 m-2 reward-state @(kazanildi ? "done" : "pending")">
+                                <i class="bi @(kazanildi ? "bi-check-circle-fill" : "bi-hourglass-split")"></i>
+                                @(kazanildi ? "Kazanildi" : "Bekliyor")
+                            </span>
+                        </div>
+
+                        <div class="reward-body">
+                            <h6>@odul.Ad</h6>
+                            @if (!string.IsNullOrEmpty(odul.Aciklama))
+                            {
+                                <p>@odul.Aciklama</p>
+                            }
+
+                            <div class="d-flex justify-content-between mb-1 small">
+                                <span class="text-muted">Gerekli puan</span>
+                                <strong class="text-primary">@odul.GerekliPuan</strong>
+                            </div>
+                            <div class="progress-soft mb-1">
+                                <div class="bar" style="width:@ilerleme%"></div>
+                            </div>
+                            <small class="text-muted">
+                                @(kazanildi ? "Tamamlandi" : $"{toplamPuan} / {odul.GerekliPuan}")
+                            </small>
+                        </div>
+                    </article>
                 }
             </div>
         }
         else
         {
-            <p class="surface-subtitle">Henuz odul kazanilmadi. Aktivite ekleyerek ilerleyebilirsin.</p>
+            <p class="surface-subtitle">Henuz odul tanimlanmadi.</p>
         }
-
-        <a href="/Ogrenci/Oduller" class="btn btn-outline-primary btn-sm mt-2">Tum odulleri gor</a>
     </section>
 </div>
 

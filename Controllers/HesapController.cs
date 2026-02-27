@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.DataProtection;
 using PuanOdulSistemi.Data;
 using PuanOdulSistemi.Models;
 
@@ -6,6 +7,9 @@ namespace PuanOdulSistemi.Controllers
 {
     public class HesapController : Controller
     {
+        private const string BeniHatirlaCerezAdi = "LgsHazirlik.Remember";
+        private static readonly TimeSpan BeniHatirlaSuresi = TimeSpan.FromDays(30);
+
         private static readonly HashSet<string> IzinliGorselUzantilari = new(StringComparer.OrdinalIgnoreCase)
         {
             ".jpg", ".jpeg", ".png", ".webp"
@@ -13,11 +17,13 @@ namespace PuanOdulSistemi.Controllers
 
         private readonly AppDbContext _db;
         private readonly IWebHostEnvironment _env;
+        private readonly IDataProtector _beniHatirlaKoruyucu;
 
-        public HesapController(AppDbContext db, IWebHostEnvironment env)
+        public HesapController(AppDbContext db, IWebHostEnvironment env, IDataProtectionProvider dataProtectionProvider)
         {
             _db = db;
             _env = env;
+            _beniHatirlaKoruyucu = dataProtectionProvider.CreateProtector("LgsHazirlik.Remember.v1");
         }
 
         [HttpGet]
@@ -32,7 +38,7 @@ namespace PuanOdulSistemi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Giris(string kullaniciAdi, string sifre)
+        public IActionResult Giris(string kullaniciAdi, string sifre, bool beniHatirla = false)
         {
             var kullanici = _db.Kullanicilar.FirstOrDefault(k => k.KullaniciAdi == kullaniciAdi);
             if (kullanici == null || !BCrypt.Net.BCrypt.Verify(sifre, kullanici.Sifre))
@@ -42,6 +48,14 @@ namespace PuanOdulSistemi.Controllers
             }
 
             SessionYaz(kullanici);
+            if (beniHatirla)
+            {
+                BeniHatirlaCereziniYaz(kullanici.Id);
+            }
+            else
+            {
+                BeniHatirlaCereziniSil();
+            }
 
             return kullanici.Rol == "Admin"
                 ? RedirectToAction("Index", "Admin")
@@ -161,6 +175,7 @@ namespace PuanOdulSistemi.Controllers
         public IActionResult Cikis()
         {
             HttpContext.Session.Clear();
+            BeniHatirlaCereziniSil();
             return RedirectToAction("Giris");
         }
 
@@ -178,6 +193,33 @@ namespace PuanOdulSistemi.Controllers
             HttpContext.Session.SetString("Ad", kullanici.Ad);
             HttpContext.Session.SetString("Rol", kullanici.Rol);
             HttpContext.Session.SetString("ProfilFotografYolu", kullanici.ProfilFotografYolu ?? string.Empty);
+        }
+
+        private void BeniHatirlaCereziniYaz(int kullaniciId)
+        {
+            var gecerlilikBitis = DateTimeOffset.UtcNow.Add(BeniHatirlaSuresi);
+            var hamVeri = $"{kullaniciId}|{gecerlilikBitis.ToUnixTimeSeconds()}";
+            var korumaliToken = _beniHatirlaKoruyucu.Protect(hamVeri);
+
+            Response.Cookies.Append(BeniHatirlaCerezAdi, korumaliToken, new CookieOptions
+            {
+                HttpOnly = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.Lax,
+                Secure = Request.IsHttps,
+                Expires = gecerlilikBitis,
+                Path = "/"
+            });
+        }
+
+        private void BeniHatirlaCereziniSil()
+        {
+            Response.Cookies.Delete(BeniHatirlaCerezAdi, new CookieOptions
+            {
+                Path = "/",
+                SameSite = SameSiteMode.Lax,
+                Secure = Request.IsHttps
+            });
         }
 
         private static bool ProfilFotografGecerli(IFormFile dosya)

@@ -43,6 +43,7 @@ namespace PuanOdulSistemi.Controllers
             ViewBag.OnaylananSayi = onaylananSayi;
             ViewBag.Ortalama = ortalama;
             ViewBag.KazanilanOduller = kazanilanOduller;
+            ViewBag.TumOduller = oduller;
             ViewBag.Okullar = OkulBilgisi.Okullar;
 
             return View(basvurular.OrderByDescending(b => b.GondermeTarihi).Take(5).ToList());
