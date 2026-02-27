@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PuanOdulSistemi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b45353389b516a0586a8c48c725e8e72093737b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6da8eb0e9e829c17ce112527d92c75148698e66a")]
 [assembly: System.Reflection.AssemblyProductAttribute("PuanOdulSistemi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PuanOdulSistemi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

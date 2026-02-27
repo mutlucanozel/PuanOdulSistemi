@@ -3,9 +3,13 @@
     var pageTitle = ViewData["Title"]?.ToString() ?? "Admin Paneli";
     var pageDescription = ViewData["Description"]?.ToString() ?? "LGS Hazirlik admin paneli.";
     var request = Context?.Request;
-    var baseUrl = request is null ? "" : $"{request.Scheme}://{request.Host}";
+    var forwardedProto = request?.Headers["X-Forwarded-Proto"].ToString();
+    var forwardedHost = request?.Headers["X-Forwarded-Host"].ToString();
+    var scheme = !string.IsNullOrWhiteSpace(forwardedProto) ? forwardedProto : request?.Scheme;
+    var host = !string.IsNullOrWhiteSpace(forwardedHost) ? forwardedHost : request?.Host.Value;
+    var baseUrl = !string.IsNullOrWhiteSpace(host) && !string.IsNullOrWhiteSpace(scheme) ? $"{scheme}://{host}" : "";
     var canonicalUrl = request is null ? "" : $"{baseUrl}{request.Path}{request.QueryString}";
-    var previewImage = $"{baseUrl}/images/link-preview.svg";
+    var previewImage = $"{baseUrl}/images/link-preview.png";
 
     var ad = ViewBag.Ad?.ToString() ?? "Yonetici";
     var initial = ad.Length > 0 ? ad[0].ToString().ToUpper() : "A";
@@ -20,6 +24,7 @@
     <title>@pageTitle - @siteName</title>
     <meta name="description" content="@pageDescription" />
     <meta name="theme-color" content="#0f6d7a" />
+    <link rel="canonical" href="@canonicalUrl" />
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
     <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
 
@@ -29,6 +34,11 @@
     <meta property="og:description" content="@pageDescription" />
     <meta property="og:url" content="@canonicalUrl" />
     <meta property="og:image" content="@previewImage" />
+    <meta property="og:image:url" content="@previewImage" />
+    <meta property="og:image:secure_url" content="@previewImage" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="LGS Hazirlik link onizleme gorseli" />
 
     <meta name="twitter:card" content="summary_large_image" />
