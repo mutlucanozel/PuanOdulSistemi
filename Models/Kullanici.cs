@@ -20,6 +20,8 @@ namespace PuanOdulSistemi.Models
         [Required]
         public string Rol { get; set; } = "Ogrenci"; // "Ogrenci" veya "Admin"
 
+        public string? ProfilFotografYolu { get; set; }
+
         public ICollection<PuanBasvurusu> PuanBasvurulari { get; set; } = new List<PuanBasvurusu>();
     }
 }

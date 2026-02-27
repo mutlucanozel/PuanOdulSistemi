@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PuanOdulSistemi.Data;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+    ProfiliFotografiKolonunuGarantiEt(db);
 }
 
 if (!app.Environment.IsDevelopment())
@@ -42,3 +44,46 @@ app.MapControllerRoute(
     pattern: "{controller=Hesap}/{action=Giris}/{id?}");
 
 app.Run();
+
+static void ProfiliFotografiKolonunuGarantiEt(AppDbContext db)
+{
+    var connection = db.Database.GetDbConnection();
+    var connectionInitiallyOpen = connection.State == ConnectionState.Open;
+
+    if (!connectionInitiallyOpen)
+    {
+        connection.Open();
+    }
+
+    try
+    {
+        var kolonVar = false;
+        using (var kontrolKomutu = connection.CreateCommand())
+        {
+            kontrolKomutu.CommandText = "PRAGMA table_info('Kullanicilar');";
+            using var reader = kontrolKomutu.ExecuteReader();
+            while (reader.Read())
+            {
+                if (string.Equals(reader["name"]?.ToString(), "ProfilFotografYolu", StringComparison.OrdinalIgnoreCase))
+                {
+                    kolonVar = true;
+                    break;
+                }
+            }
+        }
+
+        if (!kolonVar)
+        {
+            using var alterKomutu = connection.CreateCommand();
+            alterKomutu.CommandText = "ALTER TABLE Kullanicilar ADD COLUMN ProfilFotografYolu TEXT NULL;";
+            alterKomutu.ExecuteNonQuery();
+        }
+    }
+    finally
+    {
+        if (!connectionInitiallyOpen)
+        {
+            connection.Close();
+        }
+    }
+}

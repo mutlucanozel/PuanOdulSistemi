@@ -17,7 +17,7 @@
                 </div>
             }
 
-            <form method="post" asp-controller="Admin" asp-action="OgrenciEkle">
+            <form method="post" asp-controller="Admin" asp-action="OgrenciEkle" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label">Ad Soyad</label>
                     <div class="position-relative">
@@ -40,6 +40,11 @@
                         <i class="bi bi-lock position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                         <input type="password" name="sifre" class="form-control ps-5" required placeholder="guclu sifre belirle" minlength="4" />
                     </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Profil Fotografi (istege bagli)</label>
+                    <input type="file" name="profilFotograf" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*" />
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 py-2">

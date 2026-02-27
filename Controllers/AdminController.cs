@@ -7,6 +7,11 @@ namespace PuanOdulSistemi.Controllers
 {
     public class AdminController : Controller
     {
+        private static readonly HashSet<string> IzinliGorselUzantilari = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".jpg", ".jpeg", ".png", ".webp"
+        };
+
         private readonly AppDbContext _db;
         private readonly IWebHostEnvironment _env;
 
@@ -21,28 +26,34 @@ namespace PuanOdulSistemi.Controllers
             return HttpContext.Session.GetString("Rol") == "Admin";
         }
 
+        private void AdminViewBagHazirla()
+        {
+            ViewBag.Ad = HttpContext.Session.GetString("Ad");
+            ViewBag.BekleyenSayi = _db.PuanBasvurulari.Count(p => p.Durum == "Bekliyor");
+        }
+
         public IActionResult Index()
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
 
-            ViewBag.Ad = HttpContext.Session.GetString("Ad");
-            ViewBag.BekleyenSayi = _db.PuanBasvurulari.Count(p => p.Durum == "Bekliyor");
+            AdminViewBagHazirla();
             ViewBag.OgrenciSayisi = _db.Kullanicilar.Count(k => k.Rol == "Ogrenci");
             ViewBag.ToplamBasvuru = _db.PuanBasvurulari.Count();
             ViewBag.OdulSayisi = _db.Oduller.Count();
             return View();
         }
 
-        // --- ONAY BEKLEYENLER ---
         public IActionResult OnayBekleyenler()
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
-            ViewBag.Ad = HttpContext.Session.GetString("Ad");
+
+            AdminViewBagHazirla();
             var bekleyenler = _db.PuanBasvurulari
                 .Include(p => p.Kullanici)
                 .Where(p => p.Durum == "Bekliyor")
                 .OrderByDescending(p => p.GondermeTarihi)
                 .ToList();
+
             return View(bekleyenler);
         }
 
@@ -50,6 +61,7 @@ namespace PuanOdulSistemi.Controllers
         public IActionResult Onayla(int id, string? adminNotu)
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
+
             var basvuru = _db.PuanBasvurulari.Find(id);
             if (basvuru != null)
             {
@@ -57,7 +69,8 @@ namespace PuanOdulSistemi.Controllers
                 basvuru.AdminNotu = adminNotu;
                 _db.SaveChanges();
             }
-            TempData["Basari"] = "Puan başarıyla onaylandı.";
+
+            TempData["Basari"] = "Puan basariyla onaylandi.";
             return RedirectToAction("OnayBekleyenler");
         }
 
@@ -65,6 +78,7 @@ namespace PuanOdulSistemi.Controllers
         public IActionResult Reddet(int id, string? adminNotu)
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
+
             var basvuru = _db.PuanBasvurulari.Find(id);
             if (basvuru != null)
             {
@@ -72,67 +86,75 @@ namespace PuanOdulSistemi.Controllers
                 basvuru.AdminNotu = adminNotu;
                 _db.SaveChanges();
             }
+
             TempData["Hata"] = "Puan reddedildi.";
             return RedirectToAction("OnayBekleyenler");
         }
 
-        // --- ÖĞRENCİLER ---
         public IActionResult Ogrenciler()
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
-            ViewBag.Ad = HttpContext.Session.GetString("Ad");
 
+            AdminViewBagHazirla();
             var ogrenciler = _db.Kullanicilar
                 .Where(k => k.Rol == "Ogrenci")
                 .Include(k => k.PuanBasvurulari)
                 .ToList();
 
-            var oduller = _db.Oduller.ToList();
-            ViewBag.Oduller = oduller;
+            ViewBag.Oduller = _db.Oduller.ToList();
             ViewBag.Okullar = OkulBilgisi.Okullar;
             return View(ogrenciler);
         }
 
-        // --- ÖĞRENCİ EKLE ---
         [HttpGet]
         public IActionResult OgrenciEkle()
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
-            ViewBag.Ad = HttpContext.Session.GetString("Ad");
+            AdminViewBagHazirla();
             return View();
         }
 
         [HttpPost]
-        public IActionResult OgrenciEkle(string ad, string kullaniciAdi, string sifre)
+        public async Task<IActionResult> OgrenciEkle(string ad, string kullaniciAdi, string sifre, IFormFile? profilFotograf)
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
 
             if (_db.Kullanicilar.Any(k => k.KullaniciAdi == kullaniciAdi))
             {
-                ViewBag.Hata = "Bu kullanıcı adı zaten kullanılıyor!";
-                ViewBag.Ad = HttpContext.Session.GetString("Ad");
+                ViewBag.Hata = "Bu kullanici adi zaten kullaniliyor.";
+                AdminViewBagHazirla();
                 return View();
             }
 
+            if (profilFotograf != null && !ProfilFotografGecerli(profilFotograf))
+            {
+                ViewBag.Hata = "Profil fotografi icin sadece JPG, PNG veya WEBP kullanabilirsiniz.";
+                AdminViewBagHazirla();
+                return View();
+            }
+
+            var profilFotografYolu = await ProfilFotografiKaydetAsync(profilFotograf);
             var yeniKullanici = new Kullanici
             {
                 Ad = ad,
                 KullaniciAdi = kullaniciAdi,
                 Sifre = BCrypt.Net.BCrypt.HashPassword(sifre),
-                Rol = "Ogrenci"
+                Rol = "Ogrenci",
+                ProfilFotografYolu = profilFotografYolu
             };
+
             _db.Kullanicilar.Add(yeniKullanici);
             _db.SaveChanges();
 
-            TempData["Basari"] = $"{ad} adlı öğrenci başarıyla eklendi.";
+            TempData["Basari"] = $"{ad} adli ogrenci basariyla eklendi.";
             return RedirectToAction("Ogrenciler");
         }
 
-        // --- ÖDÜLLERİ YÖNET ---
         public IActionResult OdulleriYonet()
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
-            ViewBag.Ad = HttpContext.Session.GetString("Ad");
+
+            AdminViewBagHazirla();
             var oduller = _db.Oduller.OrderBy(o => o.GerekliPuan).ToList();
             return View(oduller);
         }
@@ -146,9 +168,11 @@ namespace PuanOdulSistemi.Controllers
             if (gorsel != null && gorsel.Length > 0)
             {
                 var uzanti = Path.GetExtension(gorsel.FileName);
-                var dosyaAdi = $"odul_{Guid.NewGuid()}{uzanti}";
-                var yuklemeYolu = Path.Combine(_env.WebRootPath, "uploads", dosyaAdi);
-                using var stream = new FileStream(yuklemeYolu, FileMode.Create);
+                var dosyaAdi = $"odul_{Guid.NewGuid():N}{uzanti}";
+                var klasor = Path.Combine(_env.WebRootPath, "uploads");
+                Directory.CreateDirectory(klasor);
+                var yuklemeYolu = Path.Combine(klasor, dosyaAdi);
+                await using var stream = new FileStream(yuklemeYolu, FileMode.Create);
                 await gorsel.CopyToAsync(stream);
                 gorselYolu = $"/uploads/{dosyaAdi}";
             }
@@ -160,10 +184,11 @@ namespace PuanOdulSistemi.Controllers
                 GerekliPuan = gerekliPuan,
                 GorselYolu = gorselYolu
             };
+
             _db.Oduller.Add(odul);
             await _db.SaveChangesAsync();
 
-            TempData["Basari"] = "Ödül başarıyla eklendi.";
+            TempData["Basari"] = "Odul basariyla eklendi.";
             return RedirectToAction("OdulleriYonet");
         }
 
@@ -171,14 +196,38 @@ namespace PuanOdulSistemi.Controllers
         public IActionResult OdulSil(int id)
         {
             if (!AdminMi()) return RedirectToAction("Giris", "Hesap");
+
             var odul = _db.Oduller.Find(id);
             if (odul != null)
             {
                 _db.Oduller.Remove(odul);
                 _db.SaveChanges();
             }
-            TempData["Basari"] = "Ödül silindi.";
+
+            TempData["Basari"] = "Odul silindi.";
             return RedirectToAction("OdulleriYonet");
+        }
+
+        private static bool ProfilFotografGecerli(IFormFile dosya)
+        {
+            var uzanti = Path.GetExtension(dosya.FileName);
+            return !string.IsNullOrWhiteSpace(uzanti) && IzinliGorselUzantilari.Contains(uzanti);
+        }
+
+        private async Task<string?> ProfilFotografiKaydetAsync(IFormFile? dosya)
+        {
+            if (dosya == null || dosya.Length == 0) return null;
+
+            var uzanti = Path.GetExtension(dosya.FileName).ToLowerInvariant();
+            var dosyaAdi = $"profil_{Guid.NewGuid():N}{uzanti}";
+            var klasor = Path.Combine(_env.WebRootPath, "uploads", "profiles");
+            Directory.CreateDirectory(klasor);
+
+            var tamYol = Path.Combine(klasor, dosyaAdi);
+            await using var stream = new FileStream(tamYol, FileMode.Create);
+            await dosya.CopyToAsync(stream);
+
+            return $"/uploads/profiles/{dosyaAdi}";
         }
     }
 }

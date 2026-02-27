@@ -31,6 +31,9 @@ namespace PuanOdulSistemi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ProfilFotografYolu")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Rol")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -49,6 +52,7 @@ namespace PuanOdulSistemi.Migrations
                             Id = 1,
                             Ad = "Yönetici",
                             KullaniciAdi = "admin",
+                            ProfilFotografYolu = (string)null,
                             Rol = "Admin",
                             Sifre = "$2a$11$CaTcykDyAFkpe9MX6Jobw.WQCfraHLCKUJrBpxex1oP6e2mPsOWYq"
                         },
@@ -57,6 +61,7 @@ namespace PuanOdulSistemi.Migrations
                             Id = 2,
                             Ad = "Ali Yılmaz",
                             KullaniciAdi = "ali",
+                            ProfilFotografYolu = (string)null,
                             Rol = "Ogrenci",
                             Sifre = "$2a$11$zZKeGD1Mk93HKqjVRMv13uXmoBL1Bw531UNgetUjNziZ8yz8K2UBe"
                         });

@@ -1,13 +1,41 @@
 @{
+    var siteName = "LGS Hazirlik";
+    var pageTitle = ViewData["Title"]?.ToString() ?? "Admin Paneli";
+    var pageDescription = ViewData["Description"]?.ToString() ?? "LGS Hazirlik admin paneli.";
+    var request = Context?.Request;
+    var baseUrl = request is null ? "" : $"{request.Scheme}://{request.Host}";
+    var canonicalUrl = request is null ? "" : $"{baseUrl}{request.Path}{request.QueryString}";
+    var previewImage = $"{baseUrl}/images/link-preview.svg";
+
     var ad = ViewBag.Ad?.ToString() ?? "Yonetici";
     var initial = ad.Length > 0 ? ad[0].ToString().ToUpper() : "A";
+    var profilFotografYolu = Context?.Session.GetString("ProfilFotografYolu");
+    var profilFotografVar = !string.IsNullOrWhiteSpace(profilFotografYolu);
 }
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Admin Paneli</title>
+    <title>@pageTitle - @siteName</title>
+    <meta name="description" content="@pageDescription" />
+    <meta name="theme-color" content="#0f6d7a" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="@siteName" />
+    <meta property="og:title" content="@pageTitle - @siteName" />
+    <meta property="og:description" content="@pageDescription" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta property="og:image" content="@previewImage" />
+    <meta property="og:image:alt" content="LGS Hazirlik link onizleme gorseli" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@pageTitle - @siteName" />
+    <meta name="twitter:description" content="@pageDescription" />
+    <meta name="twitter:image" content="@previewImage" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -23,7 +51,7 @@
                 <div class="side-brand-icon"><i class="bi bi-shield-lock"></i></div>
                 <div>
                     <h4>Admin Paneli</h4>
-                    <p>Puan Odul Sistemi</p>
+                    <p>LGS Hazirlik</p>
                 </div>
             </div>
         </div>
@@ -55,6 +83,10 @@
                 <span class="side-link-icon"><i class="bi bi-person-plus-fill"></i></span>
                 Ogrenci Ekle
             </a>
+            <a href="/Hesap/Profil" class="side-link @(ViewData["Active"]?.ToString() == "Profil" ? "active" : "")">
+                <span class="side-link-icon"><i class="bi bi-image-fill"></i></span>
+                Profil
+            </a>
 
             <div class="side-divider"></div>
 
@@ -65,7 +97,16 @@
         </nav>
 
         <div class="side-profile">
-            <div class="side-avatar">@initial</div>
+            <div class="side-avatar">
+                @if (profilFotografVar)
+                {
+                    <img src="@profilFotografYolu" alt="Profil fotografi" class="side-avatar-img" />
+                }
+                else
+                {
+                    @initial
+                }
+            </div>
             <div>
                 <strong>@ad</strong>
                 <span>Yonetici</span>
@@ -85,7 +126,16 @@
             </div>
             <div class="top-right">
                 <span class="role-tag"><i class="bi bi-shield-check"></i> Admin</span>
-                <span class="top-avatar">@initial</span>
+                <span class="top-avatar">
+                    @if (profilFotografVar)
+                    {
+                        <img src="@profilFotografYolu" alt="Profil fotografi" class="top-avatar-img" />
+                    }
+                    else
+                    {
+                        @initial
+                    }
+                </span>
                 <span class="top-name">@ad</span>
             </div>
         </header>

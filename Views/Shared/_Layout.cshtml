@@ -1,9 +1,36 @@
+@{
+    var siteName = "LGS Hazirlik";
+    var pageTitle = ViewData["Title"]?.ToString() ?? siteName;
+    var pageDescription = ViewData["Description"]?.ToString() ?? "LGS Hazirlik ile ogrenci takibi, puan ortalamasi ve hedef yonetimi.";
+    var request = Context?.Request;
+    var baseUrl = request is null ? "" : $"{request.Scheme}://{request.Host}";
+    var canonicalUrl = request is null ? "" : $"{baseUrl}{request.Path}{request.QueryString}";
+    var previewImage = $"{baseUrl}/images/link-preview.svg";
+}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Puan Odul Sistemi</title>
+    <title>@pageTitle - @siteName</title>
+    <meta name="description" content="@pageDescription" />
+    <meta name="theme-color" content="#0f6d7a" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="@siteName" />
+    <meta property="og:title" content="@pageTitle - @siteName" />
+    <meta property="og:description" content="@pageDescription" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta property="og:image" content="@previewImage" />
+    <meta property="og:image:alt" content="LGS Hazirlik link onizleme gorseli" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@pageTitle - @siteName" />
+    <meta name="twitter:description" content="@pageDescription" />
+    <meta name="twitter:image" content="@previewImage" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />

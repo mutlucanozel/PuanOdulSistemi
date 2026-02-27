@@ -192,5 +192,6 @@ C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.pdb
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.genruntimeconfig.cache
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\ref\PuanOdulSistemi.dll
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.sourcelink.json
-C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\4k9szh7bpk-{0}-18jook1h8v-18jook1h8v.gz
-C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\qsp4wcvb8p-{0}-4nyv8pznb8-4nyv8pznb8.gz
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\qsp4wcvb8p-{0}-wz298emqs2-wz298emqs2.gz
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\4k9szh7bpk-{0}-sgc95hjayj-sgc95hjayj.gz
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\j0pdzx1ydp-{0}-1isbdnsf2u-1isbdnsf2u.gz

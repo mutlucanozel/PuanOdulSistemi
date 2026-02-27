@@ -4,10 +4,11 @@
     ViewData["Active"] = "Oduller";
     Layout = "~/Views/Shared/_OgrenciLayout.cshtml";
     int toplamPuan = ViewBag.ToplamPuan ?? 0;
+    double ortalama = ViewBag.Ortalama ?? 0;
 }
 
 <div class="page-head">
-    <p>Toplam onayli puanin: <strong class="text-primary">@toplamPuan</strong></p>
+    <p>Onayli puan ortalaman: <strong class="text-primary">@ortalama.ToString("F2")</strong></p>
 </div>
 
 @if (!Model.Any())

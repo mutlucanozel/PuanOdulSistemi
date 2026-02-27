@@ -33,12 +33,15 @@ namespace PuanOdulSistemi.Controllers
             var oduller = _db.Oduller.OrderBy(o => o.GerekliPuan).ToList();
             var toplamPuan = basvurular.Where(b => b.Durum == "Onaylandi").Sum(b => b.Puan);
             var bekleyenSayi = basvurular.Count(b => b.Durum == "Bekliyor");
+            var onaylananSayi = basvurular.Count(b => b.Durum == "Onaylandi");
+            var ortalama = onaylananSayi > 0 ? basvurular.Where(b => b.Durum == "Onaylandi").Average(b => b.Puan) : 0;
             var kazanilanOduller = oduller.Where(o => o.GerekliPuan <= toplamPuan).ToList();
 
             ViewBag.Ad = HttpContext.Session.GetString("Ad");
             ViewBag.ToplamPuan = toplamPuan;
             ViewBag.BekleyenSayi = bekleyenSayi;
-            ViewBag.OnaylananSayi = basvurular.Count(b => b.Durum == "Onaylandi");
+            ViewBag.OnaylananSayi = onaylananSayi;
+            ViewBag.Ortalama = ortalama;
             ViewBag.KazanilanOduller = kazanilanOduller;
             ViewBag.Okullar = OkulBilgisi.Okullar;
 
@@ -107,14 +110,18 @@ namespace PuanOdulSistemi.Controllers
             var id = GetKullaniciId();
             if (id == null) return RedirectToAction("Giris", "Hesap");
 
-            var toplamPuan = _db.PuanBasvurulari
+            var onaylananlar = _db.PuanBasvurulari
                 .Where(p => p.KullaniciId == id && p.Durum == "Onaylandi")
-                .Sum(p => p.Puan);
+                .ToList();
+
+            var toplamPuan = onaylananlar.Sum(p => p.Puan);
+            var ortalama = onaylananlar.Count > 0 ? onaylananlar.Average(p => p.Puan) : 0;
 
             var oduller = _db.Oduller.OrderBy(o => o.GerekliPuan).ToList();
 
             ViewBag.Ad = HttpContext.Session.GetString("Ad");
             ViewBag.ToplamPuan = toplamPuan;
+            ViewBag.Ortalama = ortalama;
             return View(oduller);
         }
 

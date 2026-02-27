@@ -40,14 +40,23 @@ else
             <article class="student-card">
                 <header class="student-card-head">
                     <div class="student-head-row">
-                        <span class="student-avatar">@(ogr.Ad?.Length > 0 ? ogr.Ad[0].ToString().ToUpper() : "?")</span>
+                        <span class="student-avatar">
+                            @if (!string.IsNullOrWhiteSpace(ogr.ProfilFotografYolu))
+                            {
+                                <img src="@ogr.ProfilFotografYolu" alt="Profil fotografi" class="student-avatar-img" />
+                            }
+                            else
+                            {
+                                @(ogr.Ad?.Length > 0 ? ogr.Ad[0].ToString().ToUpper() : "?")
+                            }
+                        </span>
                         <div>
                             <p class="student-name">@ogr.Ad</p>
                             <p class="student-user">&#64;@ogr.KullaniciAdi</p>
                         </div>
                         <div class="student-score">
-                            <strong>@toplamPuan</strong>
-                            <span>puan</span>
+                            <strong>@ortalama.ToString("F1")</strong>
+                            <span>ort</span>
                         </div>
                     </div>
                 </header>

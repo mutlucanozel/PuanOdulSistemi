@@ -1,0 +1,58 @@
+@model Kullanici
+@{
+    ViewData["Title"] = "Profil";
+    ViewData["Active"] = "Profil";
+    var rol = Context.Session.GetString("Rol");
+    Layout = rol == "Admin" ? "~/Views/Shared/_AdminLayout.cshtml" : "~/Views/Shared/_OgrenciLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-xl-6">
+        <section class="surface-card p-4">
+            <h2 class="surface-title mb-1"><i class="bi bi-image-fill me-2"></i>Profil Fotografi</h2>
+            <p class="surface-subtitle mb-3">Hesabiniz icin profil fotografi secin veya guncelleyin.</p>
+
+            @if (TempData["Basari"] != null)
+            {
+                <div class="alert alert-success py-2 mb-3">
+                    <i class="bi bi-check-circle-fill me-1"></i> @TempData["Basari"]
+                </div>
+            }
+            @if (TempData["Hata"] != null)
+            {
+                <div class="alert alert-danger py-2 mb-3">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i> @TempData["Hata"]
+                </div>
+            }
+
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="student-avatar" style="width:64px;height:64px;">
+                    @if (!string.IsNullOrWhiteSpace(Model.ProfilFotografYolu))
+                    {
+                        <img src="@Model.ProfilFotografYolu" alt="Profil fotografi" class="student-avatar-img" />
+                    }
+                    else
+                    {
+                        @(Model.Ad?.Length > 0 ? Model.Ad[0].ToString().ToUpper() : "?")
+                    }
+                </div>
+                <div>
+                    <div class="fw-semibold">@Model.Ad</div>
+                    <div class="text-muted small">&#64;@Model.KullaniciAdi</div>
+                </div>
+            </div>
+
+            <form method="post" asp-controller="Hesap" asp-action="Profil" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label">Yeni Profil Fotografi</label>
+                    <input type="file" name="profilFotograf" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/*" required />
+                    <div class="form-text">Desteklenen formatlar: JPG, PNG, WEBP</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-upload me-1"></i> Fotografi Guncelle
+                </button>
+            </form>
+        </section>
+    </div>
+</div>
