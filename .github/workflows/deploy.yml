@@ -1,0 +1,18 @@
+name: Deploy to IIS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASS }}
+          script: |
+            cd C:\inetpub\wwwroot\PuanOdulSistemi && git reset --hard HEAD && git pull origin main && iisreset /stop && dotnet publish PuanOdulSistemi.csproj -c Release -o C:\sites\PuanOdulSistemi && iisreset /start
