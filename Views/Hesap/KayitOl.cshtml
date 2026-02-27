@@ -1,125 +1,118 @@
 @{
-    ViewData["Title"] = "Kayıt Ol";
+    ViewData["Title"] = "Kayit Ol";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="auth-page">
-    <!-- Left branding panel -->
-    <div class="auth-panel-left">
-        <div class="auth-brand-logo">
-            <div class="auth-brand-icon-box">🏆</div>
-            <div class="auth-brand-title">Puan &<br>Ödül Sistemi</div>
-            <p class="auth-brand-desc">Başarılarınızı takip edin, puan kazanın ve harika ödüllere ulaşın.</p>
+<div class="auth-shell">
+    <aside class="auth-showcase">
+        <div class="auth-brand">
+            <span class="auth-brand-chip"><i class="bi bi-rocket-takeoff-fill"></i> Hedefe Odakli</span>
+            <h1 class="auth-brand-title">Kendi Yolculugunu<br />Simdi Baslat.</h1>
+            <p class="auth-brand-text">
+                Hesabini olustur, basarilarini puana cevir ve odul yolculuguna hemen katil.
+            </p>
         </div>
 
-        <div class="auth-features">
-            <div class="auth-feature-item">
-                <div class="auth-feature-icon"><i class="bi bi-star-fill"></i></div>
-                <div class="auth-feature-text">
-                    <span class="feat-title">Puan Kazanın</span>
-                    <span class="feat-desc">Aktivitelerinizi girin, onay bekleyin ve puanlarınızı biriktirin.</span>
+        <div class="auth-points">
+            <div class="auth-point">
+                <span class="auth-point-icon"><i class="bi bi-plus-circle"></i></span>
+                <div>
+                    <h6>Kolay Basvuru</h6>
+                    <p>Aktiviteni dakikalar icinde gonder, sureci panelden izle.</p>
                 </div>
             </div>
-            <div class="auth-feature-item">
-                <div class="auth-feature-icon"><i class="bi bi-gift-fill"></i></div>
-                <div class="auth-feature-text">
-                    <span class="feat-title">Ödül Alın</span>
-                    <span class="feat-desc">Yeterli puana ulaştığınızda ödüllerinizi kazanın.</span>
+            <div class="auth-point">
+                <span class="auth-point-icon"><i class="bi bi-graph-up-arrow"></i></span>
+                <div>
+                    <h6>Canli Gelisim</h6>
+                    <p>Puan, ortalama ve odul durumunu tek bakista guncel gor.</p>
                 </div>
             </div>
-            <div class="auth-feature-item">
-                <div class="auth-feature-icon"><i class="bi bi-mortarboard-fill"></i></div>
-                <div class="auth-feature-text">
-                    <span class="feat-title">Okul Tahmini</span>
-                    <span class="feat-desc">Ortalama puanınıza göre girebileceğiniz okulları görün.</span>
+            <div class="auth-point">
+                <span class="auth-point-icon"><i class="bi bi-shield-check"></i></span>
+                <div>
+                    <h6>Guvenli Hesap</h6>
+                    <p>Sifren guvenli sekilde saklanir, hesabin koruma altindadir.</p>
                 </div>
             </div>
         </div>
 
-        <div class="auth-panel-bottom">
-            &copy; 2025 Puan & Ödül Sistemi
+        <div class="auth-footer-note">
+            © @DateTime.Now.Year Puan Odul Sistemi
         </div>
-    </div>
+    </aside>
 
-    <!-- Right form panel -->
-    <div class="auth-panel-right">
-        <div class="auth-form-wrap">
-
-            <!-- Mobile brand -->
+    <section class="auth-form-area">
+        <div class="w-100" style="max-width: 460px;">
             <div class="auth-mobile-brand">
-                <span class="auth-mobile-brand-icon">🏆</span>
-                <div class="auth-mobile-brand-title">Puan & Ödül Sistemi</div>
+                <h2>Puan Odul Sistemi</h2>
+                <p>Kayit ol ve ilerlemeni bugunden olc.</p>
             </div>
 
             <div class="auth-card">
                 <div class="auth-tabs">
                     <a href="/Hesap/Giris" class="auth-tab">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>Giriş Yap
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Giris Yap
                     </a>
                     <a href="/Hesap/KayitOl" class="auth-tab active">
-                        <i class="bi bi-person-plus me-1"></i>Kayıt Ol
+                        <i class="bi bi-person-plus me-1"></i> Kayit Ol
                     </a>
                 </div>
 
-                <div class="auth-body">
-                    <h6 style="font-size:1.05rem; font-weight:700; color:#0f0e2a; margin-bottom:4px;">Hesap oluşturun</h6>
-                    <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:22px;">Bilgilerinizi girerek başlayın.</p>
+                <div class="auth-content">
+                    <h5 class="auth-title">Yeni hesap olustur</h5>
+                    <p class="auth-subtitle">Bilgilerini doldur ve sistemi kullanmaya basla.</p>
 
                     @if (ViewBag.Hata != null)
                     {
-                        <div class="auth-alert auth-alert-danger">
-                            <i class="bi bi-exclamation-circle-fill"></i>
-                            <span>@ViewBag.Hata</span>
+                        <div class="alert alert-danger py-2 mb-3">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> @ViewBag.Hata
                         </div>
                     }
 
                     <form method="post" asp-controller="Hesap" asp-action="KayitOl">
                         <div class="auth-field">
-                            <label>Ad Soyad</label>
+                            <label class="form-label">Ad Soyad</label>
                             <div class="auth-input-wrap">
                                 <i class="bi bi-person-badge"></i>
-                                <input class="auth-input" type="text" name="ad"
-                                       placeholder="Adınız ve soyadınız" required minlength="2" autocomplete="name" />
+                                <input class="auth-input" type="text" name="ad" placeholder="ornek: Ayse Kaya" required minlength="2" autocomplete="name" />
                             </div>
                         </div>
 
                         <div class="auth-field">
-                            <label>Kullanıcı Adı</label>
+                            <label class="form-label">Kullanici Adi</label>
                             <div class="auth-input-wrap">
                                 <i class="bi bi-at"></i>
-                                <input class="auth-input" type="text" name="kullaniciAdi"
-                                       placeholder="Kullanıcı adı seçin" required minlength="3" autocomplete="username" />
+                                <input class="auth-input" type="text" name="kullaniciAdi" placeholder="kullanici adin" required minlength="3" autocomplete="username" />
                             </div>
                         </div>
 
                         <div class="auth-field">
-                            <label>Şifre <span style="color:#9ca3af; font-weight:400;">(en az 6 karakter)</span></label>
+                            <label class="form-label">Sifre</label>
                             <div class="auth-input-wrap">
                                 <i class="bi bi-lock"></i>
-                                <input class="auth-input" type="password" name="sifre"
-                                       placeholder="Şifre belirleyin" required minlength="6" autocomplete="new-password" />
+                                <input class="auth-input" type="password" name="sifre" placeholder="en az 6 karakter" required minlength="6" autocomplete="new-password" />
                             </div>
                         </div>
 
                         <div class="auth-field">
-                            <label>Şifre Tekrar</label>
+                            <label class="form-label">Sifre Tekrar</label>
                             <div class="auth-input-wrap">
                                 <i class="bi bi-lock-fill"></i>
-                                <input class="auth-input" type="password" name="sifreTekrar"
-                                       placeholder="Şifrenizi tekrar girin" required minlength="6" autocomplete="new-password" />
+                                <input class="auth-input" type="password" name="sifreTekrar" placeholder="sifreni tekrar gir" required minlength="6" autocomplete="new-password" />
                             </div>
                         </div>
 
                         <button type="submit" class="auth-btn">
-                            <i class="bi bi-person-check me-2"></i>Kayıt Ol
+                            <i class="bi bi-person-check me-1"></i> Kayit Ol
                         </button>
                     </form>
 
-                    <div class="auth-footer">
-                        Zaten hesabınız var mı? <a href="/Hesap/Giris">Giriş Yapın</a>
+                    <div class="auth-note">
+                        Zaten hesabin var mi? <a href="/Hesap/Giris">Giris yap</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>

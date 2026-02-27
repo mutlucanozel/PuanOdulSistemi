@@ -1,79 +1,67 @@
 @model List<PuanOdulSistemi.Models.Odul>
 @{
-    ViewData["Title"] = "Ödüller";
+    ViewData["Title"] = "Oduller";
     ViewData["Active"] = "Oduller";
     Layout = "~/Views/Shared/_OgrenciLayout.cshtml";
     int toplamPuan = ViewBag.ToplamPuan ?? 0;
 }
 
-<div class="d-flex align-items-center justify-content-between mb-4">
-    <div>
-        <p class="text-muted mb-0">Toplam onaylı puanınız: <strong class="text-primary fs-5">@toplamPuan</strong></p>
-    </div>
+<div class="page-head">
+    <p>Toplam onayli puanin: <strong class="text-primary">@toplamPuan</strong></p>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="card p-5 text-center text-muted">
-        <div style="font-size: 3rem;">🎁</div>
-        <p class="mt-2">Henüz ödül tanımlanmamış.</p>
-    </div>
+    <section class="surface-card empty-state">
+        <div class="empty-icon"><i class="bi bi-gift"></i></div>
+        <h4>Henuz odul yok</h4>
+        <p>Admin panelinden odul tanimlandiginda burada gorunecek.</p>
+    </section>
 }
 else
 {
-    <div class="row g-4">
+    <div class="reward-grid">
         @foreach (var odul in Model)
         {
             bool kazanildi = toplamPuan >= odul.GerekliPuan;
             int ilerleme = odul.GerekliPuan > 0 ? (int)Math.Min(100, (double)toplamPuan / odul.GerekliPuan * 100) : 100;
 
-            <div class="col-sm-6 col-lg-4">
-                <div class="card odul-card h-100 @(kazanildi ? "border-success" : "")" style="@(kazanildi ? "border: 2px solid #198754;" : "")">
-                    <div class="position-relative">
-                        @if (!string.IsNullOrEmpty(odul.GorselYolu))
-                        {
-                            <img src="@odul.GorselYolu" alt="@odul.Ad" />
-                        }
-                        else
-                        {
-                            <div class="placeholder-img">🎁</div>
-                        }
-                        @if (kazanildi)
-                        {
-                            <span class="position-absolute top-0 end-0 m-2 badge bg-success">
-                                <i class="bi bi-check-lg"></i> Kazanıldı!
-                            </span>
-                        }
-                    </div>
-                    <div class="card-body">
-                        <h6 class="card-title fw-bold">@odul.Ad</h6>
-                        @if (!string.IsNullOrEmpty(odul.Aciklama))
-                        {
-                            <p class="card-text text-muted small">@odul.Aciklama</p>
-                        }
-                        <div class="mt-2">
-                            <div class="d-flex justify-content-between mb-1">
-                                <small class="text-muted">Gerekli Puan</small>
-                                <small class="fw-bold text-primary">@odul.GerekliPuan</small>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar @(kazanildi ? "bg-success" : "bg-primary")"
-                                     role="progressbar" style="width: @ilerleme%"></div>
-                            </div>
-                            <small class="text-muted">
-                                @if (kazanildi)
-                                {
-                                    <span class="text-success fw-semibold">Tamamlandı! ✓</span>
-                                }
-                                else
-                                {
-                                    @($"{toplamPuan} / {odul.GerekliPuan}")
-                                }
-                            </small>
-                        </div>
-                    </div>
+            <article class="reward-card">
+                <div class="reward-media position-relative">
+                    @if (!string.IsNullOrEmpty(odul.GorselYolu))
+                    {
+                        <img src="@odul.GorselYolu" alt="@odul.Ad" />
+                    }
+                    else
+                    {
+                        <i class="bi bi-gift-fill"></i>
+                    }
+
+                    <span class="position-absolute top-0 end-0 m-2 reward-state @(kazanildi ? "done" : "pending")">
+                        <i class="bi @(kazanildi ? "bi-check-circle-fill" : "bi-hourglass-split")"></i>
+                        @(kazanildi ? "Kazanildi" : "Bekliyor")
+                    </span>
                 </div>
-            </div>
+
+                <div class="reward-body">
+                    <h6>@odul.Ad</h6>
+                    @if (!string.IsNullOrEmpty(odul.Aciklama))
+                    {
+                        <p>@odul.Aciklama</p>
+                    }
+
+                    <div class="d-flex justify-content-between mb-1 small">
+                        <span class="text-muted">Gerekli puan</span>
+                        <strong class="text-primary">@odul.GerekliPuan</strong>
+                    </div>
+                    <div class="progress-soft mb-1">
+                        <div class="bar" style="width:@ilerleme%"></div>
+                    </div>
+                    <small class="text-muted">
+                        @(kazanildi ? "Tamamlandi" : $"{toplamPuan} / {odul.GerekliPuan}")
+                    </small>
+                </div>
+            </article>
         }
     </div>
 }

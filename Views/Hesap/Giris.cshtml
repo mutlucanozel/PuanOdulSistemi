@@ -1,115 +1,109 @@
 @{
-    ViewData["Title"] = "Giriş";
+    ViewData["Title"] = "Giris";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="auth-page">
-    <!-- Left branding panel -->
-    <div class="auth-panel-left">
-        <div class="auth-brand-logo">
-            <div class="auth-brand-icon-box">🏆</div>
-            <div class="auth-brand-title">Puan &<br>Ödül Sistemi</div>
-            <p class="auth-brand-desc">Başarılarınızı takip edin, puan kazanın ve harika ödüllere ulaşın.</p>
+<div class="auth-shell">
+    <aside class="auth-showcase">
+        <div class="auth-brand">
+            <span class="auth-brand-chip"><i class="bi bi-lightning-charge-fill"></i> Akilli Takip</span>
+            <h1 class="auth-brand-title">Puanlarini Yonet,<br />Odulleri Topla.</h1>
+            <p class="auth-brand-text">
+                Basarilarini tek panelde takip et, puan biriktir ve hedefledigin odullere adim adim ulas.
+            </p>
         </div>
 
-        <div class="auth-features">
-            <div class="auth-feature-item">
-                <div class="auth-feature-icon"><i class="bi bi-star-fill"></i></div>
-                <div class="auth-feature-text">
-                    <span class="feat-title">Puan Kazanın</span>
-                    <span class="feat-desc">Aktivitelerinizi girin, onay bekleyin ve puanlarınızı biriktirin.</span>
+        <div class="auth-points">
+            <div class="auth-point">
+                <span class="auth-point-icon"><i class="bi bi-stars"></i></span>
+                <div>
+                    <h6>Basari Kaydi</h6>
+                    <p>Her aktiviteni ekle, puan kazanma surecini anlik takip et.</p>
                 </div>
             </div>
-            <div class="auth-feature-item">
-                <div class="auth-feature-icon"><i class="bi bi-gift-fill"></i></div>
-                <div class="auth-feature-text">
-                    <span class="feat-title">Ödül Alın</span>
-                    <span class="feat-desc">Yeterli puana ulaştığınızda ödüllerinizi kazanın.</span>
+            <div class="auth-point">
+                <span class="auth-point-icon"><i class="bi bi-gift-fill"></i></span>
+                <div>
+                    <h6>Odul Takibi</h6>
+                    <p>Hangi odullere ne kadar yaklastigini net olarak gor.</p>
                 </div>
             </div>
-            <div class="auth-feature-item">
-                <div class="auth-feature-icon"><i class="bi bi-mortarboard-fill"></i></div>
-                <div class="auth-feature-text">
-                    <span class="feat-title">Okul Tahmini</span>
-                    <span class="feat-desc">Ortalama puanınıza göre girebileceğiniz okulları görün.</span>
+            <div class="auth-point">
+                <span class="auth-point-icon"><i class="bi bi-mortarboard-fill"></i></span>
+                <div>
+                    <h6>Okul Tahmini</h6>
+                    <p>Onayli puan ortalamanla ulasabilecegin okullari kesfet.</p>
                 </div>
             </div>
         </div>
 
-        <div class="auth-panel-bottom">
-            &copy; 2025 Puan & Ödül Sistemi
+        <div class="auth-footer-note">
+            © @DateTime.Now.Year Puan Odul Sistemi
         </div>
-    </div>
+    </aside>
 
-    <!-- Right form panel -->
-    <div class="auth-panel-right">
-        <div class="auth-form-wrap">
-
-            <!-- Mobile brand -->
+    <section class="auth-form-area">
+        <div class="w-100" style="max-width: 460px;">
             <div class="auth-mobile-brand">
-                <span class="auth-mobile-brand-icon">🏆</span>
-                <div class="auth-mobile-brand-title">Puan & Ödül Sistemi</div>
+                <h2>Puan Odul Sistemi</h2>
+                <p>Puanlarini ve hedeflerini tek yerden yonet.</p>
             </div>
 
             <div class="auth-card">
                 <div class="auth-tabs">
                     <a href="/Hesap/Giris" class="auth-tab active">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>Giriş Yap
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Giris Yap
                     </a>
                     <a href="/Hesap/KayitOl" class="auth-tab">
-                        <i class="bi bi-person-plus me-1"></i>Kayıt Ol
+                        <i class="bi bi-person-plus me-1"></i> Kayit Ol
                     </a>
                 </div>
 
-                <div class="auth-body">
-                    <h6 style="font-size:1.05rem; font-weight:700; color:#0f0e2a; margin-bottom:4px;">Tekrar hoş geldiniz!</h6>
-                    <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:22px;">Hesabınıza giriş yapın.</p>
+                <div class="auth-content">
+                    <h5 class="auth-title">Tekrar hos geldin</h5>
+                    <p class="auth-subtitle">Hesabina giris yaparak paneline don.</p>
 
                     @if (TempData["Basari"] != null)
                     {
-                        <div class="auth-alert auth-alert-success">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>@TempData["Basari"]</span>
+                        <div class="alert alert-success py-2 mb-3">
+                            <i class="bi bi-check-circle-fill me-1"></i> @TempData["Basari"]
                         </div>
                     }
 
                     @if (ViewBag.Hata != null)
                     {
-                        <div class="auth-alert auth-alert-danger">
-                            <i class="bi bi-exclamation-circle-fill"></i>
-                            <span>@ViewBag.Hata</span>
+                        <div class="alert alert-danger py-2 mb-3">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> @ViewBag.Hata
                         </div>
                     }
 
                     <form method="post" asp-controller="Hesap" asp-action="Giris">
                         <div class="auth-field">
-                            <label>Kullanıcı Adı</label>
+                            <label class="form-label">Kullanici Adi</label>
                             <div class="auth-input-wrap">
                                 <i class="bi bi-person"></i>
-                                <input class="auth-input" type="text" name="kullaniciAdi"
-                                       placeholder="Kullanıcı adınızı girin" required autocomplete="username" />
+                                <input class="auth-input" type="text" name="kullaniciAdi" placeholder="kullanici adin" required autocomplete="username" />
                             </div>
                         </div>
 
                         <div class="auth-field">
-                            <label>Şifre</label>
+                            <label class="form-label">Sifre</label>
                             <div class="auth-input-wrap">
                                 <i class="bi bi-lock"></i>
-                                <input class="auth-input" type="password" name="sifre"
-                                       placeholder="Şifrenizi girin" required autocomplete="current-password" />
+                                <input class="auth-input" type="password" name="sifre" placeholder="sifren" required autocomplete="current-password" />
                             </div>
                         </div>
 
                         <button type="submit" class="auth-btn">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Giris Yap
                         </button>
                     </form>
 
-                    <div class="auth-footer">
-                        Hesabınız yok mu? <a href="/Hesap/KayitOl">Kayıt Olun</a>
+                    <div class="auth-note">
+                        Hesabin yok mu? <a href="/Hesap/KayitOl">Kayit ol</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>

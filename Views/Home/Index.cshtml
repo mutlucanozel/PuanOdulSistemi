@@ -1,8 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="info-page-wrap">
+    <section class="info-page-card text-center">
+        <h1 class="mb-2">Puan Odul Sistemi</h1>
+        <p class="surface-subtitle mb-3">
+            Uygulama varsayilan olarak giris ekranindan baslar. Hesabinla devam etmek icin asagidaki butonu kullan.
+        </p>
+        <a href="/Hesap/Giris" class="btn btn-primary">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Giris Ekranina Git
+        </a>
+    </section>
 </div>

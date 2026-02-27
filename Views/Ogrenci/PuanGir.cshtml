@@ -5,73 +5,83 @@
 }
 
 <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card p-4">
-            <h5 class="fw-bold mb-4"><i class="bi bi-plus-circle text-primary me-2"></i>Yeni Puan Başvurusu</h5>
+    <div class="col-lg-7">
+        <section class="surface-card p-4">
+            <h2 class="surface-title mb-1"><i class="bi bi-plus-circle-fill me-2"></i>Yeni Puan Basvurusu</h2>
+            <p class="surface-subtitle mb-3">Aktivite bilgilerini ekle, kanit yukle ve admin onayina gonder.</p>
 
             @if (TempData["Basari"] != null)
             {
-                <div class="alert alert-success">
-                    <i class="bi bi-check-circle me-2"></i>@TempData["Basari"]
+                <div class="alert alert-success py-2 mb-3">
+                    <i class="bi bi-check-circle-fill me-1"></i> @TempData["Basari"]
                 </div>
             }
 
             <form method="post" asp-controller="Ogrenci" asp-action="PuanGir" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Aktivite Adı <span class="text-danger">*</span></label>
-                    <input type="text" name="aktiviteAdi" class="form-control" placeholder="ör: Matematik Olimpiyatı 1. lik" required />
-                    <div class="form-text">Katıldığınız etkinlik, yarışma veya başarınızı yazın.</div>
+                    <label class="form-label">Aktivite Adi</label>
+                    <input type="text" name="aktiviteAdi" class="form-control" placeholder="ornek: Matematik Olimpiyati 1.lik" required />
+                    <div class="form-text">Etkinlik, yarisma veya basari basligini acik sekilde yaz.</div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Açıklama</label>
-                    <textarea name="aciklama" class="form-control" rows="3" placeholder="Aktivite hakkında kısa açıklama..."></textarea>
+                    <label class="form-label">Aciklama</label>
+                    <textarea name="aciklama" class="form-control" rows="3" placeholder="aktivite detaylari"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">İstenen Puan <span class="text-danger">*</span></label>
+                    <label class="form-label">Istenen Puan</label>
                     <div class="input-group">
-                        <input type="number" name="puan" class="form-control" placeholder="ör: 50" min="1" max="10000" required />
+                        <input type="number" name="puan" class="form-control" placeholder="ornek: 50" min="1" max="10000" required />
                         <span class="input-group-text">puan</span>
                     </div>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label fw-semibold">Kanıt Fotoğrafı</label>
+                    <label class="form-label">Kanit Fotografi</label>
                     <input type="file" name="fotograf" class="form-control" accept="image/*" id="fotografInput" />
-                    <div class="form-text">Sertifika, kupa veya katılım belgesi fotoğrafı yükleyin. (Maks. 5MB)</div>
+                    <div class="form-text">Sertifika, kupa veya katilim belgesi fotografi (maks. 5 MB).</div>
                     <div id="onizleme" class="mt-2 d-none">
-                        <img id="onizlemeImg" src="" alt="Önizleme" class="img-thumbnail" style="max-height: 200px;" />
+                        <img id="onizlemeImg" src="" alt="Onizleme" class="img-thumbnail rounded-3" style="max-height: 220px;" />
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-                    <i class="bi bi-send me-2"></i>Başvuruyu Gönder
+                <button type="submit" class="btn btn-primary w-100 py-2">
+                    <i class="bi bi-send me-1"></i> Basvuruyu Gonder
                 </button>
             </form>
-        </div>
+        </section>
 
-        <div class="card p-3 mt-3 border-warning" style="border-left: 4px solid #f59e0b !important;">
-            <p class="mb-0 small text-muted">
-                <i class="bi bi-info-circle-fill text-warning me-2"></i>
-                Gönderdiğiniz başvurular admin onayından sonra puanınıza eklenir.
-            </p>
+        <div class="quick-note mt-3">
+            <i class="bi bi-info-circle-fill me-1"></i>
+            Gonderdigin basvuru, admin onayindan sonra toplam puanina eklenir.
         </div>
     </div>
 </div>
 
 @section Scripts {
 <script>
-    document.getElementById('fotografInput').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
+    (function () {
+        const input = document.getElementById("fotografInput");
+        const wrapper = document.getElementById("onizleme");
+        const image = document.getElementById("onizlemeImg");
+        if (!input || !wrapper || !image) return;
+
+        input.addEventListener("change", function (e) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) {
+                wrapper.classList.add("d-none");
+                image.src = "";
+                return;
+            }
+
             const reader = new FileReader();
-            reader.onload = function(ev) {
-                document.getElementById('onizlemeImg').src = ev.target.result;
-                document.getElementById('onizleme').classList.remove('d-none');
+            reader.onload = function (ev) {
+                image.src = ev.target.result;
+                wrapper.classList.remove("d-none");
             };
             reader.readAsDataURL(file);
-        }
-    });
+        });
+    })();
 </script>
 }

@@ -1,0 +1,10 @@
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.csproj.AssemblyReference.cache
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.AssemblyInfoInputs.cache
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.AssemblyInfo.cs
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.csproj.CoreCompileInputs.cache
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.RazorAssemblyInfo.cache
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.RazorAssemblyInfo.cs
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\UiCheck\Debug\net10.0\PuanOdulSistemi.sourcelink.json

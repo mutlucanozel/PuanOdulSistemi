@@ -1,524 +1,132 @@
+@{
+    var ad = ViewBag.Ad?.ToString() ?? "Yonetici";
+    var initial = ad.Length > 0 ? ad[0].ToString().ToUpper() : "A";
+}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Admin Paneli</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <style>
-        :root {
-            --c-primary: #4f46e5;
-            --c-primary-dark: #4338ca;
-            --c-violet: #7c3aed;
-            --c-purple: #a855f7;
-            --c-bg: #f7f6fe;
-            --c-surface: #ffffff;
-            --c-border: rgba(79, 70, 229, 0.1);
-            --c-text: #111827;
-            --c-text-2: #6b7280;
-            --c-text-3: #9ca3af;
-            --radius: 14px;
-            --radius-sm: 10px;
-            --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 2px 8px rgba(79,70,229,0.04);
-            --shadow: 0 4px 16px rgba(79,70,229,0.1), 0 1px 4px rgba(0,0,0,0.04);
-            --shadow-md: 0 8px 28px rgba(79,70,229,0.16);
-            --sidebar-w: 256px;
-            --topbar-h: 62px;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--c-bg);
-            margin: 0;
-            min-height: 100vh;
-            color: var(--c-text);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* ── App Shell ── */
-        .app { display: flex; min-height: 100vh; }
-
-        /* ── Sidebar ── */
-        .sidebar {
-            width: var(--sidebar-w);
-            flex-shrink: 0;
-            background: var(--c-surface);
-            border-right: 1px solid var(--c-border);
-            display: flex;
-            flex-direction: column;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        .sidebar::-webkit-scrollbar { width: 3px; }
-        .sidebar::-webkit-scrollbar-track { background: transparent; }
-        .sidebar::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 4px; }
-
-        /* Sidebar header */
-        .sb-header {
-            padding: 20px 18px 18px;
-            background: linear-gradient(150deg, #1e1b4b 0%, #3730a3 40%, #5b21b6 80%, #7c3aed 100%);
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .sb-header::before {
-            content: '';
-            position: absolute;
-            top: -50px; right: -30px;
-            width: 150px; height: 150px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .sb-header::after {
-            content: '';
-            position: absolute;
-            bottom: -60px; left: -20px;
-            width: 130px; height: 130px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .sb-logo {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .sb-logo-box {
-            width: 38px;
-            height: 38px;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.15rem;
-            flex-shrink: 0;
-            backdrop-filter: blur(8px);
-        }
-
-        .sb-logo-title {
-            font-size: 0.92rem;
-            font-weight: 700;
-            color: #fff;
-            display: block;
-            line-height: 1.25;
-            letter-spacing: -0.2px;
-        }
-
-        .sb-logo-sub {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.6);
-            display: block;
-        }
-
-        /* Sidebar nav */
-        .sb-nav { padding: 14px 12px; flex: 1; }
-
-        .sb-section {
-            font-size: 0.62rem;
-            font-weight: 700;
-            letter-spacing: 0.9px;
-            text-transform: uppercase;
-            color: var(--c-text-3);
-            padding: 10px 12px 6px;
-        }
-
-        .sb-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: var(--c-text-2);
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: background 0.15s, color 0.15s;
-            margin-bottom: 1px;
-        }
-
-        .sb-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.95rem;
-            flex-shrink: 0;
-            transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-            background: transparent;
-        }
-
-        .sb-link:hover {
-            background: #f5f4ff;
-            color: var(--c-primary);
-        }
-
-        .sb-link:hover .sb-icon {
-            background: rgba(79,70,229,0.08);
-            color: var(--c-primary);
-        }
-
-        .sb-link.active {
-            background: linear-gradient(135deg, rgba(79,70,229,0.09), rgba(124,58,237,0.05));
-            color: var(--c-primary);
-            font-weight: 600;
-        }
-
-        .sb-link.active .sb-icon {
-            background: var(--c-primary);
-            color: #fff;
-            box-shadow: 0 4px 10px rgba(79,70,229,0.38);
-        }
-
-        .sb-badge {
-            margin-left: auto;
-            background: #fbbf24;
-            color: #78350f;
-            font-size: 0.64rem;
-            font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 20px;
-        }
-
-        .sb-divider { height: 1px; background: var(--c-border); margin: 10px 10px; }
-
-        .sb-link.danger { color: #ef4444; }
-        .sb-link.danger:hover { background: #fff1f2; color: #dc2626; }
-        .sb-link.danger:hover .sb-icon { background: rgba(239,68,68,0.1); color: #dc2626; }
-
-        /* Sidebar footer */
-        .sb-footer {
-            padding: 12px;
-            border-top: 1px solid var(--c-border);
-            flex-shrink: 0;
-        }
-
-        .sb-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 10px;
-            border-radius: 12px;
-            background: #f5f4ff;
-        }
-
-        .sb-user-av {
-            width: 34px;
-            height: 34px;
-            background: linear-gradient(135deg, var(--c-primary), var(--c-violet));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 0.8rem;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .sb-user-name {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--c-text);
-            display: block;
-            line-height: 1.2;
-        }
-
-        .sb-user-role {
-            font-size: 0.68rem;
-            color: var(--c-text-3);
-            display: block;
-        }
-
-        /* ── Main ── */
-        .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-
-        /* ── Topbar ── */
-        .topbar {
-            background: var(--c-surface);
-            border-bottom: 1px solid var(--c-border);
-            padding: 0 26px;
-            height: var(--topbar-h);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow-xs);
-        }
-
-        .topbar-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--c-text);
-            margin: 0;
-            letter-spacing: -0.3px;
-        }
-
-        .topbar-right { display: flex; align-items: center; gap: 10px; }
-
-        .role-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 11px;
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--c-primary), var(--c-violet));
-            color: #fff;
-            letter-spacing: 0.3px;
-        }
-
-        .topbar-av {
-            width: 34px;
-            height: 34px;
-            background: linear-gradient(135deg, var(--c-primary), var(--c-violet));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        .topbar-name { font-size: 0.875rem; font-weight: 600; color: var(--c-text); }
-
-        /* ── Content ── */
-        .content { padding: 26px; flex: 1; }
-
-        /* ── Cards ── */
-        .card {
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--c-border);
-            background: var(--c-surface);
-            transition: box-shadow 0.2s;
-        }
-
-        /* ── Stat Card ── */
-        .stat-card {
-            border-radius: var(--radius);
-            border: 1px solid var(--c-border);
-            background: var(--c-surface);
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            overflow: hidden;
-            text-decoration: none;
-            display: block;
-            color: inherit;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-            color: inherit;
-        }
-
-        /* ── Alerts ── */
-        .alert { border-radius: 12px; font-size: 0.875rem; }
-        .alert-success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
-        .alert-danger  { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
-        .alert-warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-        .alert-info    { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
-
-        /* ── Table ── */
-        .table { font-size: 0.875rem; }
-
-        .table thead th {
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            color: var(--c-text-3);
-            background: #faf9ff;
-            border-bottom: 1px solid var(--c-border);
-            padding: 12px 16px;
-        }
-
-        .table td { padding: 13px 16px; vertical-align: middle; border-color: var(--c-border); }
-        .table tbody tr { transition: background 0.12s; }
-        .table tbody tr:hover { background: #faf9ff; }
-
-        /* ── Badges ── */
-        .badge-bekliyor { background: #fef3c7 !important; color: #92400e !important; border: 1px solid #fde68a; }
-
-        /* ── Reward cards ── */
-        .odul-card .placeholder-img {
-            width: 100%; height: 160px;
-            display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, var(--c-primary), var(--c-purple));
-            font-size: 3.5rem;
-        }
-        .odul-card img { width: 100%; height: 160px; object-fit: cover; }
-
-        /* ── Buttons ── */
-        .btn { border-radius: var(--radius-sm); font-weight: 500; font-size: 0.875rem; }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--c-primary), var(--c-violet));
-            border: none;
-            font-weight: 600;
-        }
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--c-primary-dark), #6d28d9);
-            border: none;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(79,70,229,0.3);
-        }
-        .btn-primary:active { transform: translateY(0); }
-
-        /* ── Form Controls ── */
-        .form-control, .form-select {
-            border: 1.5px solid #e5e7eb;
-            border-radius: var(--radius-sm);
-            font-size: 0.875rem;
-            padding: 9px 13px;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: #fafafa;
-        }
-        .form-control:focus, .form-select:focus {
-            border-color: var(--c-primary);
-            box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
-            background: #fff;
-        }
-
-        .input-group-text {
-            border: 1.5px solid #e5e7eb;
-            background: #f5f4ff;
-            font-size: 0.875rem;
-            color: var(--c-text-2);
-        }
-
-        .form-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--c-text);
-            margin-bottom: 6px;
-        }
-
-        /* Progress */
-        .progress { height: 8px; border-radius: 4px; background: #f1f5f9; }
-    </style>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
-<div class="app">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sb-header">
-            <div class="sb-logo">
-                <div class="sb-logo-box">⚙️</div>
+<body class="app-body">
+<div class="app-shell" id="appShell">
+    <aside class="app-sidebar admin" id="appSidebar">
+        <div class="side-brand">
+            <div class="side-brand-row">
+                <div class="side-brand-icon"><i class="bi bi-shield-lock"></i></div>
                 <div>
-                    <span class="sb-logo-title">Admin Paneli</span>
-                    <span class="sb-logo-sub">Puan & Ödül Sistemi</span>
+                    <h4>Admin Paneli</h4>
+                    <p>Puan Odul Sistemi</p>
                 </div>
             </div>
         </div>
 
-        <nav class="sb-nav">
-            <div class="sb-section">Yönetim</div>
+        <nav class="side-nav">
+            <p class="side-label">Yonetim</p>
 
-            <a href="/Admin/Index" class="sb-link @(ViewData["Active"]?.ToString() == "Index" ? "active" : "")">
-                <span class="sb-icon"><i class="bi bi-grid-1x2-fill"></i></span>
-                Genel Bakış
+            <a href="/Admin/Index" class="side-link @(ViewData["Active"]?.ToString() == "Index" ? "active" : "")">
+                <span class="side-link-icon"><i class="bi bi-grid-1x2-fill"></i></span>
+                Genel Bakis
             </a>
-
-            <a href="/Admin/OnayBekleyenler" class="sb-link @(ViewData["Active"]?.ToString() == "OnayBekleyenler" ? "active" : "")">
-                <span class="sb-icon"><i class="bi bi-hourglass-split"></i></span>
+            <a href="/Admin/OnayBekleyenler" class="side-link @(ViewData["Active"]?.ToString() == "OnayBekleyenler" ? "active" : "")">
+                <span class="side-link-icon"><i class="bi bi-hourglass-split"></i></span>
                 Onay Bekleyenler
                 @if (ViewBag.BekleyenSayi != null && ViewBag.BekleyenSayi > 0)
                 {
-                    <span class="sb-badge">@ViewBag.BekleyenSayi</span>
+                    <span class="side-badge">@ViewBag.BekleyenSayi</span>
                 }
             </a>
-
-            <a href="/Admin/Ogrenciler" class="sb-link @(ViewData["Active"]?.ToString() == "Ogrenciler" ? "active" : "")">
-                <span class="sb-icon"><i class="bi bi-people-fill"></i></span>
-                Öğrenciler
+            <a href="/Admin/Ogrenciler" class="side-link @(ViewData["Active"]?.ToString() == "Ogrenciler" ? "active" : "")">
+                <span class="side-link-icon"><i class="bi bi-people-fill"></i></span>
+                Ogrenciler
+            </a>
+            <a href="/Admin/OdulleriYonet" class="side-link @(ViewData["Active"]?.ToString() == "OdulleriYonet" ? "active" : "")">
+                <span class="side-link-icon"><i class="bi bi-gift-fill"></i></span>
+                Odulleri Yonet
+            </a>
+            <a href="/Admin/OgrenciEkle" class="side-link @(ViewData["Active"]?.ToString() == "OgrenciEkle" ? "active" : "")">
+                <span class="side-link-icon"><i class="bi bi-person-plus-fill"></i></span>
+                Ogrenci Ekle
             </a>
 
-            <a href="/Admin/OdulleriYonet" class="sb-link @(ViewData["Active"]?.ToString() == "OdulleriYonet" ? "active" : "")">
-                <span class="sb-icon"><i class="bi bi-gift-fill"></i></span>
-                Ödülleri Yönet
-            </a>
+            <div class="side-divider"></div>
 
-            <a href="/Admin/OgrenciEkle" class="sb-link @(ViewData["Active"]?.ToString() == "OgrenciEkle" ? "active" : "")">
-                <span class="sb-icon"><i class="bi bi-person-plus-fill"></i></span>
-                Öğrenci Ekle
-            </a>
-
-            <div class="sb-divider"></div>
-
-            <a href="/Hesap/Cikis" class="sb-link danger">
-                <span class="sb-icon"><i class="bi bi-box-arrow-left"></i></span>
-                Çıkış Yap
+            <a href="/Hesap/Cikis" class="side-link logout">
+                <span class="side-link-icon"><i class="bi bi-box-arrow-left"></i></span>
+                Cikis Yap
             </a>
         </nav>
 
-        <div class="sb-footer">
-            <div class="sb-user">
-                <div class="sb-user-av">A</div>
-                <div>
-                    <span class="sb-user-name">@ViewBag.Ad</span>
-                    <span class="sb-user-role">Yönetici</span>
-                </div>
+        <div class="side-profile">
+            <div class="side-avatar">@initial</div>
+            <div>
+                <strong>@ad</strong>
+                <span>Yonetici</span>
             </div>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <div class="main">
-        <header class="topbar">
-            <h5 class="topbar-title">@ViewData["Title"]</h5>
-            <div class="topbar-right">
-                <span class="role-chip"><i class="bi bi-shield-check"></i> Admin</span>
-                <div class="topbar-av">A</div>
-                <span class="topbar-name">@ViewBag.Ad</span>
+    <button type="button" class="sidebar-overlay" id="sidebarOverlay" aria-label="Menuyu kapat"></button>
+
+    <div class="app-main">
+        <header class="app-topbar">
+            <div class="top-left">
+                <button type="button" class="mobile-toggle" id="sidebarToggle" aria-label="Menuyu ac">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h1 class="top-title">@ViewData["Title"]</h1>
+            </div>
+            <div class="top-right">
+                <span class="role-tag"><i class="bi bi-shield-check"></i> Admin</span>
+                <span class="top-avatar">@initial</span>
+                <span class="top-name">@ad</span>
             </div>
         </header>
 
-        <div class="content">
+        <main class="app-content">
             @if (TempData["Basari"] != null)
             {
-                <div class="alert alert-success alert-dismissible fade show mb-4">
-                    <i class="bi bi-check-circle-fill me-2"></i>@TempData["Basari"]
+                <div class="alert alert-success alert-dismissible fade show mb-3">
+                    <i class="bi bi-check-circle-fill me-1"></i> @TempData["Basari"]
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             }
             @if (TempData["Hata"] != null)
             {
-                <div class="alert alert-danger alert-dismissible fade show mb-4">
-                    <i class="bi bi-x-circle-fill me-2"></i>@TempData["Hata"]
+                <div class="alert alert-danger alert-dismissible fade show mb-3">
+                    <i class="bi bi-x-circle-fill me-1"></i> @TempData["Hata"]
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             }
             @RenderBody()
-        </div>
+        </main>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    (function () {
+        const shell = document.getElementById("appShell");
+        const toggle = document.getElementById("sidebarToggle");
+        const overlay = document.getElementById("sidebarOverlay");
+        if (!shell || !toggle || !overlay) return;
+
+        const closeSidebar = () => shell.classList.remove("sidebar-open");
+        toggle.addEventListener("click", () => shell.classList.toggle("sidebar-open"));
+        overlay.addEventListener("click", closeSidebar);
+
+        window.addEventListener("resize", function () {
+            if (window.innerWidth >= 992) closeSidebar();
+        });
+    })();
+</script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

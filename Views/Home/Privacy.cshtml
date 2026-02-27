@@ -1,6 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+@{
+    ViewData["Title"] = "Gizlilik";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="info-page-wrap">
+    <section class="info-page-card">
+        <h1 class="mb-2">Gizlilik Politikasi</h1>
+        <p class="surface-subtitle mb-3">
+            Bu uygulama ogrenci performans verilerini puan takibi amaciyla kullanir.
+            Hesap bilgileri ve sifreler guvenli sekilde saklanir.
+        </p>
+        <a href="/Hesap/Giris" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left me-1"></i> Girise Don
+        </a>
+    </section>
+</div>

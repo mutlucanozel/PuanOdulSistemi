@@ -194,3 +194,4 @@ C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.pdb
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.genruntimeconfig.cache
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\ref\PuanOdulSistemi.dll
 C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\PuanOdulSistemi.sourcelink.json
+C:\Users\MUTLU CAN\Desktop\PuanOdulSistemi\obj\Debug\net10.0\compressed\4k9szh7bpk-{0}-g7m271p5nv-g7m271p5nv.gz

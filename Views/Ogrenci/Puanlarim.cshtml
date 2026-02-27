@@ -1,76 +1,79 @@
 @model List<PuanOdulSistemi.Models.PuanBasvurusu>
 @{
-    ViewData["Title"] = "Puanlarım";
+    ViewData["Title"] = "Puanlarim";
     ViewData["Active"] = "Puanlarim";
     Layout = "~/Views/Shared/_OgrenciLayout.cshtml";
 }
 
-<div class="card p-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="fw-bold mb-0"><i class="bi bi-list-check text-primary me-2"></i>Tüm Başvurularım</h5>
+<section class="surface-card p-3">
+    <div class="page-head mb-2">
+        <p>Tum basvurularini buradan takip edebilirsin.</p>
         <a href="/Ogrenci/PuanGir" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus me-1"></i>Yeni Başvuru
+            <i class="bi bi-plus me-1"></i> Yeni Basvuru
         </a>
     </div>
 
     @if (!Model.Any())
     {
-        <div class="text-center py-5 text-muted">
-            <div style="font-size: 3rem;">📝</div>
-            <p class="mt-2">Henüz başvuru yapılmadı.</p>
-            <a href="/Ogrenci/PuanGir" class="btn btn-primary">İlk Puanı Gir</a>
+        <div class="empty-state py-4">
+            <div class="empty-icon"><i class="bi bi-journal-plus"></i></div>
+            <h5>Henuz basvuru yok</h5>
+            <p>Ilk aktiviteni girip puan yolculugunu baslat.</p>
+            <a href="/Ogrenci/PuanGir" class="btn btn-primary">Ilk Puani Gir</a>
         </div>
     }
     else
     {
-        <div class="row g-3">
+        <div class="item-list">
             @foreach (var b in Model)
             {
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm p-3">
-                        <div class="row align-items-center">
-                            @if (!string.IsNullOrEmpty(b.FotografYolu))
-                            {
-                                <div class="col-auto">
-                                    <a href="@b.FotografYolu" target="_blank">
-                                        <img src="@b.FotografYolu" alt="kanıt" class="rounded" style="width: 70px; height: 70px; object-fit: cover;" />
-                                    </a>
-                                </div>
-                            }
-                            <div class="col">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <strong>@b.AktiviteAdi</strong>
-                                    @if (b.Durum == "Onaylandi")
-                                    {
-                                        <span class="badge bg-success">✓ Onaylandı</span>
-                                    }
-                                    else if (b.Durum == "Bekliyor")
-                                    {
-                                        <span class="badge bg-warning text-dark">⏳ Bekliyor</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">✗ Reddedildi</span>
-                                    }
-                                </div>
-                                @if (!string.IsNullOrEmpty(b.Aciklama))
+                <article class="log-card">
+                    <div class="log-row">
+                        @if (!string.IsNullOrEmpty(b.FotografYolu))
+                        {
+                            <a class="proof-thumb" href="@b.FotografYolu" target="_blank" rel="noopener noreferrer">
+                                <img src="@b.FotografYolu" alt="Kanit fotografi" />
+                            </a>
+                        }
+
+                        <div class="log-text">
+                            <h6>@b.AktiviteAdi</h6>
+                            <div class="mb-1">
+                                @if (b.Durum == "Onaylandi")
                                 {
-                                    <p class="text-muted small mb-1">@b.Aciklama</p>
+                                    <span class="status-badge success"><i class="bi bi-check-lg"></i> Onaylandi</span>
                                 }
-                                @if (!string.IsNullOrEmpty(b.AdminNotu))
+                                else if (b.Durum == "Bekliyor")
                                 {
-                                    <p class="text-info small mb-1"><i class="bi bi-chat-left me-1"></i>Admin: @b.AdminNotu</p>
+                                    <span class="status-badge warning"><i class="bi bi-hourglass-split"></i> Bekliyor</span>
                                 }
-                                <span class="text-muted small">@b.GondermeTarihi.ToString("dd MMMM yyyy HH:mm")</span>
+                                else
+                                {
+                                    <span class="status-badge danger"><i class="bi bi-x-lg"></i> Reddedildi</span>
+                                }
                             </div>
-                            <div class="col-auto text-end">
-                                <span class="fs-4 fw-bold text-primary">@b.Puan</span>
-                                <div class="text-muted small">puan</div>
+
+                            @if (!string.IsNullOrEmpty(b.Aciklama))
+                            {
+                                <p>@b.Aciklama</p>
+                            }
+                            @if (!string.IsNullOrEmpty(b.AdminNotu))
+                            {
+                                <p class="mb-1"><i class="bi bi-chat-left-text me-1"></i><strong>Admin Notu:</strong> @b.AdminNotu</p>
+                            }
+
+                            <div class="log-meta">
+                                <i class="bi bi-clock me-1"></i>@b.GondermeTarihi.ToString("dd MMMM yyyy HH:mm")
                             </div>
                         </div>
+
+                        <div class="log-points">
+                            <strong>@b.Puan</strong>
+                            <span>puan</span>
+                        </div>
                     </div>
-                </div>
+                </article>
             }
         </div>
     }
-</div>
+</section>

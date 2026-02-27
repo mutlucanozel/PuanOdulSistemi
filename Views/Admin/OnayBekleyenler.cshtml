@@ -7,92 +7,81 @@
 
 @if (!Model.Any())
 {
-    <div class="card p-5 text-center">
-        <div style="width:72px;height:72px;background:#f0fdf4;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 16px;">✅</div>
-        <h6 class="fw-bold" style="color:#0f0e2a;">Bekleyen onay yok!</h6>
-        <p class="text-muted small mb-0">Tüm başvurular işlenmiş.</p>
-    </div>
+    <section class="surface-card empty-state">
+        <div class="empty-icon"><i class="bi bi-check2-all"></i></div>
+        <h4>Bekleyen onay yok</h4>
+        <p>Tum basvurular islenmis durumda.</p>
+    </section>
 }
 else
 {
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
-        <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;box-shadow:0 0 0 3px rgba(245,158,11,0.2);"></div>
-        <span style="font-size:0.85rem;color:#6b7280;"><strong style="color:#111827;">@Model.Count</strong> başvuru onay bekliyor</span>
+    <div class="page-head">
+        <p><strong>@Model.Count</strong> basvuru admin onayi bekliyor.</p>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="item-list">
         @foreach (var b in Model)
         {
-            <div class="card p-0" style="overflow:hidden;">
-                <div style="padding:20px 22px;">
-                    <div class="row align-items-start g-3">
+            <article class="request-card">
+                <div class="request-top">
+                    <div class="d-flex gap-3 flex-grow-1">
                         @if (!string.IsNullOrEmpty(b.FotografYolu))
                         {
-                            <div class="col-auto">
-                                <a href="@b.FotografYolu" target="_blank" style="display:block;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                                    <img src="@b.FotografYolu" alt="kanıt"
-                                         style="width:100px;height:100px;object-fit:cover;display:block;" />
+                            <div class="request-proof">
+                                <a href="@b.FotografYolu" target="_blank" rel="noopener noreferrer">
+                                    <img src="@b.FotografYolu" alt="Kanit fotografi" />
                                 </a>
-                                <div style="text-align:center;font-size:0.68rem;color:#9ca3af;margin-top:5px;">Kanıt Fotoğrafı</div>
                             </div>
                         }
-                        <div class="col">
-                            <div class="d-flex justify-content-between align-items-start gap-3">
-                                <div style="flex:1;min-width:0;">
-                                    <h5 style="font-size:1rem;font-weight:700;color:#0f0e2a;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                                        @b.AktiviteAdi
-                                    </h5>
-                                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-                                        <div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.65rem;font-weight:700;flex-shrink:0;">
-                                            @(b.Kullanici?.Ad?.Length > 0 ? b.Kullanici.Ad[0].ToString().ToUpper() : "?")
-                                        </div>
-                                        <span style="font-size:0.85rem;color:#374151;font-weight:600;">@b.Kullanici?.Ad</span>
-                                        <span style="font-size:0.78rem;color:#9ca3af;">(@b.Kullanici?.KullaniciAdi)</span>
-                                    </div>
-                                    @if (!string.IsNullOrEmpty(b.Aciklama))
-                                    {
-                                        <p style="font-size:0.82rem;color:#6b7280;margin:0 0 6px;line-height:1.5;">@b.Aciklama</p>
-                                    }
-                                    <div style="display:flex;align-items:center;gap:4px;font-size:0.76rem;color:#9ca3af;">
-                                        <i class="bi bi-clock"></i>
-                                        @b.GondermeTarihi.ToString("dd MMMM yyyy, HH:mm")
-                                    </div>
-                                </div>
-                                <div style="text-align:right;flex-shrink:0;">
-                                    <div style="font-size:1.8rem;font-weight:800;color:#4f46e5;letter-spacing:-1px;line-height:1;">@b.Puan</div>
-                                    <div style="font-size:0.72rem;color:#9ca3af;">puan</div>
+
+                        <div class="flex-grow-1">
+                            <h3 class="request-title">@b.AktiviteAdi</h3>
+                            <div class="request-user">
+                                <span class="avatar">@(b.Kullanici?.Ad?.Length > 0 ? b.Kullanici.Ad[0].ToString().ToUpper() : "?")</span>
+                                <div>
+                                    <strong>@b.Kullanici?.Ad</strong>
+                                    <span class="text-muted small">(@b.Kullanici?.KullaniciAdi)</span>
                                 </div>
                             </div>
-
-                            <!-- Actions -->
-                            <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(79,70,229,0.08);">
-                                <div class="row g-2">
-                                    <div class="col-12 col-md-6">
-                                        <form method="post" asp-controller="Admin" asp-action="Onayla" class="d-flex gap-2">
-                                            <input type="hidden" name="id" value="@b.Id" />
-                                            <input type="text" name="adminNotu" class="form-control form-control-sm"
-                                                   placeholder="Admin notu (isteğe bağlı)..." />
-                                            <button type="submit" class="btn btn-success btn-sm px-3 fw-semibold text-nowrap d-flex align-items-center gap-1">
-                                                <i class="bi bi-check-lg"></i> Onayla
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <form method="post" asp-controller="Admin" asp-action="Reddet" class="d-flex gap-2">
-                                            <input type="hidden" name="id" value="@b.Id" />
-                                            <input type="text" name="adminNotu" class="form-control form-control-sm"
-                                                   placeholder="Red nedeni..." />
-                                            <button type="submit" class="btn btn-danger btn-sm px-3 fw-semibold text-nowrap d-flex align-items-center gap-1">
-                                                <i class="bi bi-x-lg"></i> Reddet
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+                            @if (!string.IsNullOrEmpty(b.Aciklama))
+                            {
+                                <p class="request-desc">@b.Aciklama</p>
+                            }
+                            <div class="request-meta">
+                                <i class="bi bi-clock me-1"></i> @b.GondermeTarihi.ToString("dd MMMM yyyy, HH:mm")
                             </div>
                         </div>
                     </div>
+
+                    <div class="request-points">
+                        <strong>@b.Puan</strong>
+                        <span>puan</span>
+                    </div>
                 </div>
-            </div>
+
+                <div class="request-actions">
+                    <div class="row g-2">
+                        <div class="col-12 col-lg-6">
+                            <form method="post" asp-controller="Admin" asp-action="Onayla" class="d-flex gap-2">
+                                <input type="hidden" name="id" value="@b.Id" />
+                                <input type="text" name="adminNotu" class="form-control form-control-sm" placeholder="Admin notu (istege bagli)" />
+                                <button type="submit" class="btn btn-success btn-sm fw-semibold text-nowrap">
+                                    <i class="bi bi-check-lg me-1"></i>Onayla
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <form method="post" asp-controller="Admin" asp-action="Reddet" class="d-flex gap-2">
+                                <input type="hidden" name="id" value="@b.Id" />
+                                <input type="text" name="adminNotu" class="form-control form-control-sm" placeholder="Red nedeni" />
+                                <button type="submit" class="btn btn-danger btn-sm fw-semibold text-nowrap">
+                                    <i class="bi bi-x-lg me-1"></i>Reddet
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
         }
     </div>
 }
